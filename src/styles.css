@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    --primary-color: #032541;
+    --light-blue: #01B4E4;
+    --lighter-gren: #c0fecf;
+    --light-green: #1ED5A9;
+    --text-color: #000;
+}
+
+body {
+    font-family: "Source Sans Pro", Arial, sans-serif;
+}
+
+h2.page-header {
+    font-size: 1.6em;
+    font-weight: 600 !important;
+    margin: 0;
+}

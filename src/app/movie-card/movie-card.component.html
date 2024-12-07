@@ -1,0 +1,12 @@
+<div class="card">
+    <a [routerLink]="['/movies', movie().id]">
+        <img [src]="'/img' + movie().posterPath" alt="" class="card-img-top">
+    </a>
+    <div class="card-body">
+        <p class="card-title"><a [routerLink]="['/movies', movie().id]">{{movie().title}}</a></p>
+        <p class="card-subtitle mb-2">{{movie().releaseDate}}</p>
+    </div>
+    <div class="card-footer">
+        <p class="card-text">{{movie().voteAverage | number: '1.0-1'}} </p>
+    </div>
+</div>
