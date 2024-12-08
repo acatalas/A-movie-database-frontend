@@ -2,7 +2,11 @@
 <nav aria-label="Main" class="navbar navbar-expand">
   <div class="container-xxl">
     <div class="d-flex">
-      <a href="#" class="navbar-brand d-flex">
+      <a
+        [routerLink]="['/movies']"
+        [routerLinkActive]="['active']"
+        class="navbar-brand d-flex"
+      >
         <img src="img/logo.svg" alt="The Movie Database logo" width="154" />
       </a>
     </div>
