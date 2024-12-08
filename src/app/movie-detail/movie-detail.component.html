@@ -24,6 +24,7 @@
       <div>
         <span>{{ movie()!.voteAverage }}</span>
       </div>
+      <star-rating [rating]="movie()!.userRating" (ratingChange)="changeRating($event)"></star-rating>
       <div class="section">
         <h4 class="section-title">Vista general</h4>
         <p>{{ movie()!.overview }}</p>

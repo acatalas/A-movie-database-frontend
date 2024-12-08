@@ -6,7 +6,8 @@
         <p class="card-title"><a [routerLink]="['/movies', movie().id]">{{movie().title}}</a></p>
         <p class="card-subtitle mb-2">{{movie().releaseDate}}</p>
     </div>
-    <div class="card-footer">
-        <p class="card-text">{{movie().voteAverage | number: '1.0-1'}} </p>
+    <div class="card-footer d-flex">
+        <p class="card-text me-auto mb-0">{{movie().voteAverage | number: '1.0-1'}} </p>
+        <star-rating [rating]="movie().userRating" (ratingChange)="changeRating($event)"></star-rating>
     </div>
 </div>

@@ -1,0 +1,12 @@
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<div class="star-container" (mouseleave)="auxRating.set(rating())">
+  @for (star of [1,2,3,4,5]; track $index) {
+  <i
+    class="bi"
+    [ngClass]="star <= auxRating() ? 'bi-star-fill' : 'bi-star'"
+    (mouseenter)="auxRating.set(star)"
+    (click)="rating.set(star)"
+  ></i>
+  }
+</div>

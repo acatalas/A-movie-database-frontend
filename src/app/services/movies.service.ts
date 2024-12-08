@@ -29,6 +29,7 @@ export class MoviesService {
       posterPath: '/iaGfB2itLC8exBvfLUoadS0Q6tP.jpg',
       releaseDate: '2024-10-09',
       status: 'Released',
+      userRating: 0
     },
     {
       id: 912649,
@@ -57,6 +58,7 @@ export class MoviesService {
       posterPath: '/b0obWWCLRVRqRzlSK1LSGtADkLM.jpg',
       releaseDate: '2024-10-22',
       status: 'Released',
+      userRating: 0
     },
     {
       backdropPath: '/mQZJoIhTEkNhCYAqcHrQqhENLdu.jpg',
@@ -86,6 +88,7 @@ export class MoviesService {
       title: 'Robot salvaje',
       voteAverage: 8.402,
       voteCount: 3322,
+      userRating: 0
     },
     {
       backdropPath: '/uVlUu174iiKhsUGqnOSy46eIIMU.jpg',
@@ -114,6 +117,7 @@ export class MoviesService {
       title: 'Wicked',
       voteAverage: 7.569,
       voteCount: 418,
+      userRating: 0
     },
     {
       backdropPath: '/p5ozvmdgsmbWe0H8Xk7Rc8SCwAB.jpg',
@@ -150,6 +154,7 @@ export class MoviesService {
       title: 'Del revés 2 (Inside Out 2)',
       voteAverage: 7.576,
       voteCount: 4916,
+      userRating: 0
     },
   ];
   getMovies(): Movie[] {
@@ -157,5 +162,9 @@ export class MoviesService {
   }
   getMovie(id: number): Movie {
     return this.movies.filter(movie => movie.id === id)[0];
+  }
+
+  changeRating(id: number, newRating: number): void {
+    this.getMovie(id).userRating = newRating;
   }
 }

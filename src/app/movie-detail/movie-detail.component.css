@@ -13,3 +13,7 @@ h3 {
         font-weight: 600;
     }
 }
+
+star-rating .bi {
+    font-size: 1.3em;
+}

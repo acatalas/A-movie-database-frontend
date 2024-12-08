@@ -13,4 +13,5 @@ export interface Movie {
     posterPath: string;
     releaseDate: string; //"2024-10-09"
     status: string; //"status": "Released",
+    userRating: number;
 }
