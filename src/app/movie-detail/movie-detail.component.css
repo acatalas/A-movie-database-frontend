@@ -1,0 +1,15 @@
+h3 {
+    font-size: 2.2em;
+    font-weight: 700;
+    .year{
+        font-weight: 400;
+    }
+}
+
+.section {
+    margin-top: 1em;
+    .section-title {
+        font-size: 1.3em;
+        font-weight: 600;
+    }
+}

@@ -1,32 +1,33 @@
-<div class="mt-5">
+<div class="mt-5 container-xxl px-5">
   @if (movie()) {
   <div class="row">
-    <div class="col col-lg-12 col-xl-3">
+    <div class="col col-4 poster">
       <img
         class="img-fluid"
         [src]="'/img' + movie()!.posterPath"
         [alt]="movie()!.title + ' poster'"
+        class="rounded img-fluid"
       />
     </div>
-    <div class="col col-lg-12 col-xl-9">
-      <h3>{{ movie()!.title }}</h3>
+    <div class="col col-8 details">
+      <h3>
+        {{ movie()!.title }}
+        <span class="year">({{ movie()!.releaseDate | date : "y" }})</span>
+      </h3>
       <div>
-        <span>{{ movie()!.releaseDate }}</span>
-        <span>|</span>
-        <span>
-          @for (genre of movie()!.genres; track genre.id) {
-          {{ genre.name }}
-          }
-        </span>
-        <span>|</span>
-        <span>{{ movie()!.runtime }}</span>
+        <span>{{ movie()!.releaseDate | intlDate : "short" : "es-ES" }}</span>
+        <span> | </span>
+        <span>{{ this.genreTitles?.join(", ") }}</span>
+        <span> | </span>
+        <span>{{ movie()!.runtime | minutesToHours}}</span>
       </div>
       <div>
         <span>{{ movie()!.voteAverage }}</span>
       </div>
-      <p>
-        {{ movie()!.overview }}
-      </p>
+      <div class="section">
+        <h4 class="section-title">Vista general</h4>
+        <p>{{ movie()!.overview }}</p>
+      </div>
     </div>
   </div>
   }
