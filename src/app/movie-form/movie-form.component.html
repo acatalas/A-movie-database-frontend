@@ -1,0 +1,56 @@
+<form (ngSubmit)="addMovie(movieForm)" #movieForm="ngForm">
+  <div class="row">
+    <label for="title" class="col-sm-2 col-form-label">Titulo</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="title" name="title" [(ngModel)]="newMovie.title" />
+    </div>
+  </div>
+  <div class="row">
+    <label for="overview" class="col-sm-2 col-form-label">Sinopsis</label>
+    <div class="col-sm-10">
+      <textarea class="form-control" id="overview" name="overview" placeholder="Sinopsis" [(ngModel)]="newMovie.overview"></textarea>
+    </div>
+  </div>
+  <div class="row">
+    <label for="runtime" class="col-sm-2 col-form-label">Duración</label>
+    <div class="col-sm-10">
+      <input type="number" class="form-control" id="runtime" name="runtime" placeholder="Duración" [(ngModel)]="newMovie.runtime" />
+    </div>
+  </div>
+  <div class="row">
+    <label for="genre1" class="col-sm-2 col-form-label">Géneros</label>
+    <div class="col-sm-5">
+      <select class="form-select" id="genre1" name="genre1" [(ngModel)]="newMovie.genres[0]">
+        @for (genre of genres; track genre.id) {
+        <option [ngValue]="genre">{{ genre.name }}</option>
+        }
+      </select>
+    </div>
+    <div class="col-sm-5">
+      <select class="form-select" id="genre2" name="genre2" [(ngModel)]="newMovie.genres[1]">
+        @for (genre of genres; track genre.id) {
+        <option [ngValue]="genre">{{ genre.name }}</option>
+        }
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <label for="poster" class="col-sm-2 col-form-label">Poster</label>
+    <div class="col-sm-10">
+      <input type="file" class="form-control" id="poster" name="poster" placeholder="Imágen del poster" />
+    </div>
+  </div>
+  <div class="row">
+    <label for="releaseDate" class="col-sm-2 col-form-label">Fecha de estreno</label>
+    <div class="col-sm-10">
+      <input
+        type="date"
+        class="form-control"
+        id="releaseDate"
+        name="releaseDate"
+        placeholder="Fecha de estreno"
+        [(ngModel)]="newMovie.releaseDate"
+      />
+    </div>
+  </div>
+</form>

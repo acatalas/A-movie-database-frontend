@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Movie } from '../interfaces/movie';
+import { Genre } from '../interfaces/genre';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +30,7 @@ export class MoviesService {
       posterPath: '/iaGfB2itLC8exBvfLUoadS0Q6tP.jpg',
       releaseDate: '2024-10-09',
       status: 'Released',
-      userRating: 0
+      userRating: 0,
     },
     {
       id: 912649,
@@ -58,7 +59,7 @@ export class MoviesService {
       posterPath: '/b0obWWCLRVRqRzlSK1LSGtADkLM.jpg',
       releaseDate: '2024-10-22',
       status: 'Released',
-      userRating: 0
+      userRating: 0,
     },
     {
       backdropPath: '/mQZJoIhTEkNhCYAqcHrQqhENLdu.jpg',
@@ -88,7 +89,7 @@ export class MoviesService {
       title: 'Robot salvaje',
       voteAverage: 8.402,
       voteCount: 3322,
-      userRating: 0
+      userRating: 0,
     },
     {
       backdropPath: '/uVlUu174iiKhsUGqnOSy46eIIMU.jpg',
@@ -117,7 +118,7 @@ export class MoviesService {
       title: 'Wicked',
       voteAverage: 7.569,
       voteCount: 418,
-      userRating: 0
+      userRating: 0,
     },
     {
       backdropPath: '/p5ozvmdgsmbWe0H8Xk7Rc8SCwAB.jpg',
@@ -154,17 +155,102 @@ export class MoviesService {
       title: 'Del revés 2 (Inside Out 2)',
       voteAverage: 7.576,
       voteCount: 4916,
-      userRating: 0
+      userRating: 0,
     },
   ];
   getMovies(): Movie[] {
     return this.movies;
   }
   getMovie(id: number): Movie {
-    return this.movies.filter(movie => movie.id === id)[0];
+    return this.movies.filter((movie) => movie.id === id)[0];
+  }
+
+  addMovie(movie: Movie): void {
+    this.movies.push(movie);
   }
 
   changeRating(id: number, newRating: number): void {
     this.getMovie(id).userRating = newRating;
+  }
+
+  getGenres(): Genre[] {
+    return [
+      {
+        id: 28,
+        name: 'Acción',
+      },
+      {
+        id: 12,
+        name: 'Aventura',
+      },
+      {
+        id: 16,
+        name: 'Animación',
+      },
+      {
+        id: 35,
+        name: 'Comedia',
+      },
+      {
+        id: 80,
+        name: 'Crimen',
+      },
+      {
+        id: 99,
+        name: 'Documental',
+      },
+      {
+        id: 18,
+        name: 'Drama',
+      },
+      {
+        id: 10751,
+        name: 'Familia',
+      },
+      {
+        id: 14,
+        name: 'Fantasía',
+      },
+      {
+        id: 36,
+        name: 'Historia',
+      },
+      {
+        id: 27,
+        name: 'Terror',
+      },
+      {
+        id: 10402,
+        name: 'Música',
+      },
+      {
+        id: 9648,
+        name: 'Misterio',
+      },
+      {
+        id: 10749,
+        name: 'Romance',
+      },
+      {
+        id: 878,
+        name: 'Ciencia ficción',
+      },
+      {
+        id: 10770,
+        name: 'Película de TV',
+      },
+      {
+        id: 53,
+        name: 'Suspense',
+      },
+      {
+        id: 10752,
+        name: 'Bélica',
+      },
+      {
+        id: 37,
+        name: 'Western',
+      },
+    ];
   }
 }
