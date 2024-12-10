@@ -27,9 +27,23 @@ export class MovieFormComponent {
     status: '',
     userRating: 0
   };
+  
 
   addMovie(movieForm: NgForm){
-    this.#moviesService.addMovie(this.newMovie);
+    this.#moviesService.addMovie({...this.newMovie});
+    console.log(this.newMovie)
     movieForm.resetForm()
+    this.newMovie.genres = [this.genres[0], this.genres[1]];
+  }
+
+  changeImage(event: Event) {
+    const fileInput = event.target as HTMLInputElement;
+    if (!fileInput.files?.length) return;
+    const reader = new FileReader();
+    reader.readAsDataURL(fileInput.files[0]);
+    reader.addEventListener('loadend', () => {
+      this.newMovie.posterPath = reader.result as string;
+      //this.#changeDetector.markForCheck(); // Marca el componente como dirty
+    });
   }
 }

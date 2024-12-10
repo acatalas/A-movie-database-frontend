@@ -1,3 +1,18 @@
-form > div {
+form .form-controls > div {
     margin-bottom: 1em;
+}
+
+form img.poster-preview {
+    max-height: 20em;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+}
+
+button {
+    background-color: var(--primary-color);
+    border: none;
+
+    &:hover {
+        background-color: var(--light-blue);
+    }
 }

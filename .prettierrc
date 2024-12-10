@@ -1,9 +1,17 @@
 {
-  "tabWidth": 2,
-  "useTabs": false,
+  "trailingComma": "es5",
+  "tabWidth": 4,
+  "semi": true,
+  "doubleQuote": true,
   "overrides": [
     {
-      "files": "src/**/*.html", 
+      "files": "*.html,*.css",
+      "options": {
+        "tabWidth": 2
+      }
+    },
+    {
+      "files": "*.html",
       "options": {
         "printWidth": 140
       }

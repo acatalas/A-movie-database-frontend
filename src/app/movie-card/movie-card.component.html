@@ -1,6 +1,6 @@
 <div class="card">
     <a [routerLink]="['/movies', movie().id]">
-        <img [src]="'/img' + movie().posterPath" alt="" class="card-img-top">
+        <img [src]="movie().posterPath" alt="" class="card-img-top">
     </a>
     <div class="card-body">
         <p class="card-title"><a [routerLink]="['/movies', movie().id]">{{movie().title}}</a></p>
