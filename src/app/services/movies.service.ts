@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { MoviesResponse } from '../interfaces/movies-response';
+import { SingleMovieResponse } from '../interfaces/single-movie-response';
 
 @Injectable({
     providedIn: 'root',
@@ -12,6 +13,7 @@ import { MoviesResponse } from '../interfaces/movies-response';
 export class MoviesService {
     #apiKey = environment.apiKey;
     discoverMovieUrl = 'https://api.themoviedb.org/3/discover/movie';
+    movieDetailUrl = 'https://api.themoviedb.org/3/movie';
     http = inject(HttpClient);
 
     movies: Movie[] = [
@@ -172,11 +174,19 @@ export class MoviesService {
             accept: 'application/json',
             Authorization: `Bearer ${this.#apiKey}`,
         };
-        return this.http.get<MoviesResponse>(this.discoverMovieUrl, { headers });
+        return this.http.get<MoviesResponse>(this.discoverMovieUrl, {
+            headers,
+        });
     }
 
-    getMovie(id: number): Movie {
-        return this.movies.filter((movie) => movie.id === id)[0];
+    getMovie(id: number): Observable<SingleMovieResponse> {
+        const headers = {
+            accept: 'application/json',
+            Authorization: `Bearer ${this.#apiKey}`,
+        };
+        return this.http.get<SingleMovieResponse>(this.movieDetailUrl + '/' + id, {
+            headers,
+        });
     }
 
     addMovie(movie: Movie): void {
@@ -184,7 +194,8 @@ export class MoviesService {
     }
 
     changeRating(id: number, newRating: number): void {
-        this.getMovie(id).userRating = newRating;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const hello = id + newRating;
     }
 
     getGenres(): Genre[] {

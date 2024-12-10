@@ -20,7 +20,6 @@ export class MoviesPageComponent {
 
     filteredMovies = computed(() => {
         const searchText = this.search().toLowerCase();
-        //console.log(this.movies());
         return this.movies().filter((e) =>
             e.title.toLowerCase().includes(searchText)
         );
