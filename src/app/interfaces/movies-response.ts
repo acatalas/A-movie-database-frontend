@@ -4,5 +4,5 @@ export interface MoviesResponse {
     page: number,
     results: SingleMovieResponse[],
     total_pages: number,
-    total_results: 951591
+    total_results: number
 }
