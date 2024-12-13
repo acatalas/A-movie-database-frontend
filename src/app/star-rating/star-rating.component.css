@@ -1,8 +1,16 @@
 .star-container {
-    width: fit-content;
+    
   
-    .bi {
+    img {
       cursor: pointer;
+      width: 10%;
+    }
+
+    .star-full {
+      filter: brightness(0) saturate(100%) invert(77%) sepia(41%) saturate(6189%) hue-rotate(150deg) brightness(88%) contrast(106%);
+    }
+    .star-empty {
+      filter: invert(0.9)
     }
   }
   

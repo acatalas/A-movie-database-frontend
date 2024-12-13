@@ -1,36 +1,38 @@
 <div class="mt-5 container-xxl px-5">
-  @if (movie()) {
-  <div class="row">
-    <div class="col col-4 poster">
-      <img
-        class="img-fluid"
-        [src]="movie()!.posterPath === null ? '/img/no-image-placeholder.svg' : 'https://image.tmdb.org/t/p/w500' + movie()!.posterPath"
-        [alt]="movie()!.title + ' poster'"
-        class="rounded img-fluid"
-        [class.no-image]="movie()!.posterPath === null"
-      />
+    @if (movie()) {
+    <div class="row">
+        <div class="col col-4 poster">
+            <img
+                class="img-fluid"
+                [src]="
+                    movie()!.posterPath === null ? '/img/no-image-placeholder.svg' : 'https://image.tmdb.org/t/p/w500' + movie()!.posterPath
+                "
+                [alt]="movie()!.title + ' poster'"
+                class="rounded img-fluid"
+                [class.no-image]="movie()!.posterPath === null"
+            />
+        </div>
+        <div class="col col-8 details">
+            <h3>
+                {{ movie()!.title }}
+                <span class="year">({{ movie()!.releaseDate | date : "y" }})</span>
+            </h3>
+            <div class="mb-4">
+                <span>{{ movie()!.releaseDate | intlDate : "short" : "es-ES" }}</span>
+                <span> | </span>
+                <span>{{ this.genreTitles?.join(", ") }}</span>
+                <span> | </span>
+                <span>{{ movie()!.runtime | minutesToHours }}</span>
+            </div>
+            <div class="d-flex align-items-center mb-4 rating">
+                <star-rating [rating]="movie()!.userRating" (ratingChange)="changeRating($event)"></star-rating>
+                <span class="ms-3 rating-score">{{ movie()!.voteAverage }}</span>
+            </div>
+            <div class="section">
+                <h4 class="section-title">Vista general</h4>
+                <p>{{ movie()!.overview }}</p>
+            </div>
+        </div>
     </div>
-    <div class="col col-8 details">
-      <h3>
-        {{ movie()!.title }}
-        <span class="year">({{ movie()!.releaseDate | date : "y" }})</span>
-      </h3>
-      <div>
-        <span>{{ movie()!.releaseDate | intlDate : "short" : "es-ES" }}</span>
-        <span> | </span>
-        <span>{{ this.genreTitles?.join(", ") }}</span>
-        <span> | </span>
-        <span>{{ movie()!.runtime | minutesToHours}}</span>
-      </div>
-      <div>
-        <span>{{ movie()!.voteAverage }}</span>
-      </div>
-      <star-rating [rating]="movie()!.userRating" (ratingChange)="changeRating($event)"></star-rating>
-      <div class="section">
-        <h4 class="section-title">Vista general</h4>
-        <p>{{ movie()!.overview }}</p>
-      </div>
-    </div>
-  </div>
-  }
+    }
 </div>

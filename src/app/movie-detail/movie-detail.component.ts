@@ -1,6 +1,7 @@
 import {
     ChangeDetectorRef,
     Component,
+    DestroyRef,
     effect,
     inject,
     input,
@@ -15,6 +16,7 @@ import { IntlDatePipe } from '../pipes/intl-date.pipe';
 import { MinutesToHoursPipe } from '../pipes/minutes-to-hours.pipe';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { HttpErrorResponse } from '@angular/common/http';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'movie-detail',
@@ -28,31 +30,32 @@ export class MovieDetailComponent {
     genreTitles: string[] | undefined = undefined;
     #moviesService = inject(MoviesService);
     changeDetector = inject(ChangeDetectorRef);
+    destroyRef = inject(DestroyRef);
     #title = inject(Title);
 
     constructor() {
         effect(() => {
             this.#moviesService
                 .getMovie(this.id())
+                .pipe(takeUntilDestroyed(this.destroyRef))
                 .subscribe({
                     next: (movie) => {
-                        this.movie.set(movie)
+                        this.movie.set(movie);
+                        this.#title.setTitle(
+                            this.movie()!.title
+                        );
+                        this.genreTitles = this.movie()?.genres!.flatMap(
+                            (genre) => genre.name
+                        );
                     },
                     error: (error: HttpErrorResponse) => {
-                        console.error(`Error obteniendo productos: `, error)
-                    }
+                        console.error(`Error obteniendo productos: `, error);
+                    },
                 });
-
-            this.#title.setTitle(this.movie()?.title + ' | Angular Products');
-            this.genreTitles = this.movie()?.genres!.flatMap(
-                (genre) => genre.name
-            );
         });
     }
 
     changeRating(rating: number) {
-        console.log(rating);
         this.movie()!.userRating = rating;
-        this.#moviesService.changeRating(this.movie()!.id!, rating);
     }
 }

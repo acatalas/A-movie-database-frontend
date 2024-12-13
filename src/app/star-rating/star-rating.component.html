@@ -1,12 +1,12 @@
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <div class="star-container" (mouseleave)="auxRating.set(rating())">
-  @for (star of [1,2,3,4,5]; track $index) {
-  <i
-    class="bi"
-    [ngClass]="star <= auxRating() ? 'bi-star-fill' : 'bi-star'"
+  @for (star of [1,2,3,4,5,6,7,8,9,10]; track $index) {
+  <img
+    alt="star"
+    [src]="star % 2 === 0 ? '/img/half-star-right.svg' : '/img/half-star-left.svg'"
+    [ngClass]="{'star-full': star <= auxRating(), 'star-empty': star > auxRating(), 'star-right': star % 2 === 0, 'star-left': star % 2 !== 0}"
     (mouseenter)="auxRating.set(star)"
-    (click)="rating.set(star)"
-  ></i>
+    (click)="rating.set(star)">
   }
 </div>

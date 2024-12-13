@@ -21,6 +21,7 @@ import { MoviesPagination } from '../interfaces/movies-pagination';
 export class MoviesPageComponent {
     moviesService = inject(MoviesService);
     movies = signal<Movie[]>([]);
+    defaultMovies: Movie[] = [];
     search = signal('');
 
     //convert search() signal to observable since signals don't have a native debounceTime equivalent,
@@ -34,39 +35,53 @@ export class MoviesPageComponent {
 
     filteredMovies = new Subscription();
     constructor() {
-        
         this.filteredMovies = toObservable<string>(
             this.delayedSearchTerm
         ).subscribe({
             next: (searchTerm) => {
                 //if no search term is supplied, get Discovery movies, since a search term is needed for the search endpoint
                 if (searchTerm === '') {
-                    this.moviesService
-                        .getMovies()
-                        .pipe(takeUntilDestroyed(this.destroyRef))
-                        .subscribe(this.handleMovieSubscription());
-                //if search term is supplied, filter by title. We can't use the Discovery endpoint since it does not filter by title
+                    this.loadDefaultMovies();
+                    //if search term is supplied, filter by title. We can't use the Discovery endpoint since it does not filter by title
                 } else {
-                    this.moviesService
-                        .getMoviesByTitle(searchTerm)
-                        .pipe(takeUntilDestroyed(this.destroyRef))
-                        .subscribe(this.handleMovieSubscription());
+                    this.getMoviesByTitle(searchTerm);
                 }
             },
         });
     }
 
-    handleMovieSubscription() {
-        return {
-            next: (movies: MoviesPagination) => {
-                this.movies.set(movies.results);
-            },
-            error: (error: HttpErrorResponse) => {
-                console.error(
-                    `Error obteniendo productos: `,
-                    error
-                );
-            }
+    //loads the default movies that are shown when the search term is empty
+    loadDefaultMovies(): void {
+        if (this.defaultMovies.length <= 0) {
+            this.moviesService
+                .getMovies()
+                .pipe(takeUntilDestroyed(this.destroyRef))
+                .subscribe({
+                    next: (movies: MoviesPagination) => {
+                        this.defaultMovies = movies.results;
+                        this.movies.set(this.defaultMovies);
+                    },
+                    error: (error: HttpErrorResponse) => {
+                        console.error(`Error obteniendo productos: `, error);
+                    },
+                });
+        } else {
+            this.movies.set(this.defaultMovies);
         }
-    } 
+        
+    }
+
+    getMoviesByTitle(title: string): void {
+        this.moviesService
+            .getMoviesByTitle(title)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe({
+                next: (movies: MoviesPagination) => {
+                    this.movies.set(movies.results);
+                },
+                error: (error: HttpErrorResponse) => {
+                    console.error(`Error obteniendo productos: `, error);
+                },
+            });
+    }
 }

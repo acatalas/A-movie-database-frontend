@@ -38,5 +38,9 @@
     .card-footer {
         font-weight: 600;
         color: var(--primary-color);
+
+        star-rating {
+            width: calc(0.8em * 10)
+        }
     }
 }
