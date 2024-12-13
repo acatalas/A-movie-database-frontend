@@ -1,10 +1,10 @@
 <div class="card">
     <a [routerLink]="['/movies', movie().id]">
-        <img [src]="movie().posterPath" alt="" class="card-img-top">
+        <img [src]="movie().posterPath === null ? '/img/no-image-placeholder.svg' : 'https://image.tmdb.org/t/p/w500' + movie().posterPath" alt="" class="card-img-top" [class.no-image]="movie().posterPath === null">
     </a>
     <div class="card-body">
         <p class="card-title"><a [routerLink]="['/movies', movie().id]">{{movie().title}}</a></p>
-        <p class="card-subtitle mb-2">{{movie().releaseDate}}</p>
+        <p class="card-subtitle">{{movie().releaseDate}}</p>
     </div>
     <div class="card-footer d-flex">
         <p class="card-text me-auto mb-0">{{movie().voteAverage | number: '1.0-1'}} </p>

@@ -10,8 +10,8 @@ export interface Movie {
     popularity: number;
     voteAverage: number;
     voteCount: number;
-    backdropPath: string; //url to image
-    posterPath: string;
+    backdropPath: string | null; //url to image
+    posterPath: string | null;
     releaseDate: string; //"2024-10-09"
     status: string; //"status": "Released",
     userRating: number;

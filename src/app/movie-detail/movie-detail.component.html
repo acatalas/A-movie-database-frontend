@@ -4,9 +4,10 @@
     <div class="col col-4 poster">
       <img
         class="img-fluid"
-        [src]="movie()!.posterPath"
+        [src]="movie()!.posterPath === null ? '/img/no-image-placeholder.svg' : 'https://image.tmdb.org/t/p/w500' + movie()!.posterPath"
         [alt]="movie()!.title + ' poster'"
         class="rounded img-fluid"
+        [class.no-image]="movie()!.posterPath === null"
       />
     </div>
     <div class="col col-8 details">

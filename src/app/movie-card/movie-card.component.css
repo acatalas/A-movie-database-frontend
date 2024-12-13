@@ -1,24 +1,42 @@
 .card {
     height: 100%;
-  .card-title {
-    font-weight: 700;
-    margin: 0;
-    a {
-      text-decoration: none;
-      color: var(--text-color);
 
-      &:hover {
-        color: var(--light-blue);
-      }
+    & > a {
+        background-color: #dbdbdb;
+
+        img {
+            aspect-ratio: 2 / 3;
+            object-fit: fill;
+
+            &.no-image {
+                transform: scale(0.5);
+            }
+        }
     }
-  }
-  .card-footer {
-    font-weight: 600;
-    color: var(--primary-color);
-  }
-}
 
-.card .movie-date {
-  font-weight: 400;
-  color: rgba(0, 0, 0, 0.6);
+    .card-title {
+        font-weight: 700;
+        margin: 0;
+        line-height: 1.25em;
+        a {
+            text-decoration: none;
+            color: var(--text-color);
+
+            &:hover {
+                color: var(--light-blue);
+            }
+        }
+    }
+    .movie-date {
+        font-weight: 400;
+        color: rgba(0, 0, 0, 0.6);
+    }
+
+    .card-body > p{
+        margin-bottom: 0.5em;
+    }
+    .card-footer {
+        font-weight: 600;
+        color: var(--primary-color);
+    }
 }

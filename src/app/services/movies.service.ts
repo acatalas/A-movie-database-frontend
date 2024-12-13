@@ -45,9 +45,7 @@ export class MoviesService {
                                 voteAverage: movieResponse.vote_average,
                                 voteCount: movieResponse.vote_count,
                                 backdropPath: movieResponse.backdrop_path, //url to image
-                                posterPath:
-                                    'https://image.tmdb.org/t/p/w500' +
-                                    movieResponse.poster_path,
+                                posterPath: movieResponse.poster_path,
                                 releaseDate: movieResponse.release_date, //"2024-10-09"
                                 status: movieResponse.status, //"status": "Released",
                                 userRating: 0,
@@ -78,6 +76,7 @@ export class MoviesService {
                     return {
                         page: response.page,
                         results: response.results.map((movieResponse) => {
+                            console.log(movieResponse)
                             return {
                                 id: movieResponse.id,
                                 title: movieResponse.title,
@@ -88,9 +87,7 @@ export class MoviesService {
                                 voteAverage: movieResponse.vote_average,
                                 voteCount: movieResponse.vote_count,
                                 backdropPath: movieResponse.backdrop_path, //url to image
-                                posterPath:
-                                    'https://image.tmdb.org/t/p/w500' +
-                                    movieResponse.poster_path,
+                                posterPath: movieResponse.poster_path,
                                 releaseDate: movieResponse.release_date, //"2024-10-09"
                                 status: movieResponse.status, //"status": "Released",
                                 userRating: 0,
@@ -124,9 +121,7 @@ export class MoviesService {
                         voteAverage: response.vote_average,
                         voteCount: response.vote_count,
                         backdropPath: response.backdrop_path, //url to image
-                        posterPath:
-                            'https://image.tmdb.org/t/p/w500' +
-                            response.poster_path,
+                        posterPath: response.poster_path,
                         releaseDate: response.release_date, //"2024-10-09"
                         status: response.status, //"status": "Released",
                         userRating: 0,
