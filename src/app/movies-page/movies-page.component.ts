@@ -31,26 +31,7 @@ export class MoviesPageComponent {
             .pipe(takeUntilDestroyed())
             .subscribe({
                 next: (movies) => {
-                    this.movies.set(
-                        movies.results.map((movie) => {
-                            return {
-                              id: movie.id,
-                              title: movie.title,
-                              genres: [],
-                              overview: movie.overview,
-                              runtime: 0,
-                              popularity: movie.popularity,
-                              voteAverage: movie.vote_average,
-                              voteCount: movie.vote_count,
-                              backdropPath: movie.backdrop_path, //url to image
-                              posterPath: "https://image.tmdb.org/t/p/w500" + movie.poster_path,
-                              releaseDate: movie.release_date, //"2024-10-09"
-                              status: "Released", //"status": "Released",
-                              userRating: 0
-                            };
-                        })
-                    );
-                    
+                    this.movies.set(movies.results);
                 },
                 error: (error: HttpErrorResponse) =>
                     console.error(`Error obteniendo productos: `, error),

@@ -3,9 +3,10 @@ import { Movie } from '../interfaces/movie';
 import { Genre } from '../interfaces/genre';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { MoviesResponse } from '../interfaces/movies-response';
+import { map, Observable } from 'rxjs';
+import { MoviesPaginationResponse } from '../interfaces/movies-pagination-response';
 import { SingleMovieResponse } from '../interfaces/single-movie-response';
+import { MoviesPagination } from '../interfaces/movies-pagination';
 
 @Injectable({
     providedIn: 'root',
@@ -169,24 +170,73 @@ export class MoviesService {
         },
     ];
 
-    getMovies(): Observable<MoviesResponse> {
+    getMovies(): Observable<MoviesPagination> {
         const headers = {
             accept: 'application/json',
             Authorization: `Bearer ${this.#apiKey}`,
         };
-        return this.http.get<MoviesResponse>(this.discoverMovieUrl, {
-            headers,
-        });
+        return this.http
+            .get<MoviesPaginationResponse>(this.discoverMovieUrl, { headers })
+            .pipe(
+                map<MoviesPaginationResponse, MoviesPagination>((response) => {
+                    return {
+                        page: response.page,
+                        results: response.results.map((movieResponse) => {
+                            return {
+                                id: movieResponse.id,
+                                title: movieResponse.title,
+                                genre_ids: movieResponse.genre_ids,
+                                overview: movieResponse.overview,
+                                runtime: movieResponse.runtime,
+                                popularity: movieResponse.popularity,
+                                voteAverage: movieResponse.vote_average,
+                                voteCount: movieResponse.vote_count,
+                                backdropPath: movieResponse.backdrop_path, //url to image
+                                posterPath:
+                                    'https://image.tmdb.org/t/p/w500' +
+                                    movieResponse.poster_path,
+                                releaseDate: movieResponse.release_date, //"2024-10-09"
+                                status: movieResponse.status, //"status": "Released",
+                                userRating: 0,
+                            };
+                        }),
+                        totalPages: response.total_pages,
+                        totalResults: response.total_results,
+                    };
+                })
+            );
     }
 
-    getMovie(id: number): Observable<SingleMovieResponse> {
+    getMovie(id: number): Observable<Movie> {
         const headers = {
             accept: 'application/json',
             Authorization: `Bearer ${this.#apiKey}`,
         };
-        return this.http.get<SingleMovieResponse>(this.movieDetailUrl + '/' + id, {
-            headers,
-        });
+        return this.http
+            .get<SingleMovieResponse>(this.movieDetailUrl + '/' + id, {
+                headers,
+            })
+            .pipe(
+                map<SingleMovieResponse, Movie>((response) => {
+                    return {
+                        id: response.id,
+                        title: response.title,
+                        genres: response.genres,
+                        overview: response.overview,
+                        runtime: response.runtime,
+                        popularity: response.popularity,
+                        voteAverage: response.vote_average,
+                        voteCount: response.vote_count,
+                        backdropPath: response.backdrop_path, //url to image
+                        posterPath:
+                            'https://image.tmdb.org/t/p/w500' +
+                            response.poster_path,
+                        releaseDate: response.release_date, //"2024-10-09"
+                        status: response.status, //"status": "Released",
+                        userRating: 0,
+                    };
+                })
+            );
     }
 
     addMovie(movie: Movie): void {

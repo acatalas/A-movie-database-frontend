@@ -1,6 +1,6 @@
 import { SingleMovieResponse } from "./single-movie-response";
 
-export interface MoviesResponse {
+export interface MoviesPaginationResponse {
     page: number,
     results: SingleMovieResponse[],
     total_pages: number,

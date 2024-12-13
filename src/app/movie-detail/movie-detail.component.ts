@@ -14,6 +14,7 @@ import { DatePipe } from '@angular/common';
 import { IntlDatePipe } from '../pipes/intl-date.pipe';
 import { MinutesToHoursPipe } from '../pipes/minutes-to-hours.pipe';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'movie-detail',
@@ -35,28 +36,15 @@ export class MovieDetailComponent {
                 .getMovie(this.id())
                 .subscribe({
                     next: (movie) => {
-                        this.movie.set({
-                            id: movie.id,
-                            title: movie.title,
-                            genres: movie.genres,
-                            overview: movie.overview,
-                            runtime: movie.runtime,
-                            popularity: movie.popularity,
-                            voteAverage: movie.vote_average,
-                            voteCount: movie.vote_count,
-                            backdropPath: movie.backdrop_path, //url to image
-                            posterPath:
-                                'https://image.tmdb.org/t/p/w500' +
-                                movie.poster_path,
-                            releaseDate: movie.release_date, //"2024-10-09"
-                            status: movie.status, //"status": "Released",
-                            userRating: 0,
-                        });
+                        this.movie.set(movie)
                     },
+                    error: (error: HttpErrorResponse) => {
+                        console.error(`Error obteniendo productos: `, error)
+                    }
                 });
 
             this.#title.setTitle(this.movie()?.title + ' | Angular Products');
-            this.genreTitles = this.movie()?.genres.flatMap(
+            this.genreTitles = this.movie()?.genres!.flatMap(
                 (genre) => genre.name
             );
         });

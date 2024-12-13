@@ -3,7 +3,8 @@ import { Genre } from "./genre";
 export interface Movie {
     id?: number;
     title: string;
-    genres: Genre[];
+    genres?: Genre[];
+    genre_ids?: number[];
     overview: string;
     runtime: number;
     popularity: number;

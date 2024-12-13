@@ -3,8 +3,8 @@ import { Genre } from "./genre";
 export interface SingleMovieResponse {
     adult: boolean;
     backdrop_path: string;
-    genre_ids?: string[];
-    genres: Genre[];
+    genre_ids?: number[];
+    genres?: Genre[];
     id: number;
     original_language: string;
     original_title: string;
