@@ -4,7 +4,7 @@
         <input class="form-control me-2" type="text" name="search" placeholder="Buscar" aria-label="Search" [(ngModel)]="search" />
     </form>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 mt-1 g-4">
-        @for (movie of filteredMovies(); track movie.id) {
+        @for (movie of movies(); track movie.id) {
         <movie-card [movie]="movie" class="col"></movie-card>
         }
     </div>
