@@ -19,7 +19,9 @@ export class MoviesService {
     moviesTitleUrl = this.baseUrl + '/search/movie';
     movieDetailUrl = this.baseUrl + '/movie';
     genresUrl = this.baseUrl + '/genre/movie/list';
-    
+    language = 'es-ES';
+    region = 'es-ES';
+
     //inject http service
     http = inject(HttpClient);
 
@@ -31,6 +33,10 @@ export class MoviesService {
             accept: 'application/json',
             Authorization: `Bearer ${this.#apiKey}`,
         };
+        filterOptions = filterOptions
+            .set('language', this.language)
+            .set('region', this.region);
+
         return this.http
             .get<MoviesPaginationResponse>(this.moviesUrl, {
                 headers,
@@ -69,9 +75,11 @@ export class MoviesService {
             accept: 'application/json',
             Authorization: `Bearer ${this.#apiKey}`,
         };
-        const params = {
-            query: title,
-        };
+        const params = new HttpParams()
+            .set('query', title)
+            .set('language', this.language)
+            .set('region', this.region);
+
         return this.http
             .get<MoviesPaginationResponse>(this.moviesTitleUrl, {
                 headers,
@@ -151,9 +159,10 @@ export class MoviesService {
             accept: 'application/json',
             Authorization: `Bearer ${this.#apiKey}`,
         };
+        const params = new HttpParams().set("language", this.language);
         return this.http
             .get<GenresResponse>(this.genresUrl, {
-                headers,
+                headers, params
             })
             .pipe(
                 map<GenresResponse, Genre[]>((response) => {
