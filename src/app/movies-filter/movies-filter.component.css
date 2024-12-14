@@ -1,0 +1,24 @@
+/*Bootstrap override*/
+.accordion-button {
+    background-color: var(--bs-accordion-btn-bg) !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    color: var(--text-color);
+}
+
+.watch-provider {
+    display: flex;
+    margin-bottom: 1em;
+    label {
+        display: flex;
+        padding-left: 1.5em;
+
+        .watch-provider-logo {
+            height: 1.5em;
+        }
+
+        span {
+            padding-left: 0.5em;
+        }
+    }
+}

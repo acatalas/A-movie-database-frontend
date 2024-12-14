@@ -8,6 +8,8 @@ import { MoviesPaginationResponse } from '../interfaces/movies-pagination-respon
 import { SingleMovieResponse } from '../interfaces/single-movie-response';
 import { MoviesPagination } from '../interfaces/movies-pagination';
 import { GenresResponse } from '../interfaces/genres-response';
+import { WatchProvider } from '../interfaces/watch-provider';
+import { WatchProvidersResponse } from '../interfaces/watch-providers-response';
 
 @Injectable({
     providedIn: 'root',
@@ -19,8 +21,11 @@ export class MoviesService {
     moviesTitleUrl = this.baseUrl + '/search/movie';
     movieDetailUrl = this.baseUrl + '/movie';
     genresUrl = this.baseUrl + '/genre/movie/list';
+    watchProvidersUrl = this.baseUrl + '/watch/providers/movie';
+
     language = 'es-ES';
     region = 'es-ES';
+    watchProviderRegion = 'ES';
 
     //inject http service
     http = inject(HttpClient);
@@ -90,7 +95,6 @@ export class MoviesService {
                     return {
                         page: response.page,
                         results: response.results.map((movieResponse) => {
-                            console.log(movieResponse);
                             return {
                                 id: movieResponse.id,
                                 title: movieResponse.title,
@@ -159,15 +163,50 @@ export class MoviesService {
             accept: 'application/json',
             Authorization: `Bearer ${this.#apiKey}`,
         };
-        const params = new HttpParams().set("language", this.language);
+        const params = new HttpParams().set('language', this.language);
         return this.http
             .get<GenresResponse>(this.genresUrl, {
-                headers, params
+                headers,
+                params,
             })
             .pipe(
                 map<GenresResponse, Genre[]>((response) => {
                     return response.genres;
                 })
+            );
+    }
+
+    getWatchProviders(): Observable<WatchProvider[]> {
+        const headers = {
+            accept: 'application/json',
+            Authorization: `Bearer ${this.#apiKey}`,
+        };
+        const params = new HttpParams()
+            .set('language', this.language)
+            .set('watch_region', this.watchProviderRegion);
+        return this.http
+            .get<WatchProvidersResponse>(this.watchProvidersUrl, {
+                headers,
+                params,
+            })
+            .pipe(
+                map<WatchProvidersResponse, WatchProvider[]>(
+                    (watchProvidersResponse) => {
+                        return watchProvidersResponse.results.map(
+                            (singleWatchProviderResponse) => {
+                                return {
+                                    id: singleWatchProviderResponse.provider_id,
+                                    providerName:
+                                        singleWatchProviderResponse.provider_name,
+                                    displayPriority:
+                                        singleWatchProviderResponse.display_priority,
+                                    logoPath:
+                                        singleWatchProviderResponse.logo_path,
+                                };
+                            }
+                        );
+                    }
+                )
             );
     }
 }

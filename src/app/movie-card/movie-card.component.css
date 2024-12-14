@@ -40,7 +40,7 @@
         color: var(--primary-color);
 
         star-rating {
-            width: calc(0.8em * 10)
+            width: calc(0.65em * 10)
         }
     }
 }

@@ -1,0 +1,15 @@
+<div class="container-lg">
+    <h2 class="mt-4 page-header">Películas populares</h2>
+    <div class="row mt-4">
+        <div class="col col-6 col-sm-5 col-md-4 col-xl-3">
+            <movies-filter (filter)="filterMovies($event)"></movies-filter>
+        </div>
+        <div class="col col-6 col-sm-7 col-md-8 col-xl-9">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5  g-4">
+                @for (movie of movies(); track movie.id) {
+                <movie-card [movie]="movie" class="col"></movie-card>
+                }
+            </div>
+        </div>
+    </div>
+</div>
