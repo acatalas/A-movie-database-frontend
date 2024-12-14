@@ -36,15 +36,15 @@
             <div class="row">
                 <label for="genre1" class="col-sm-2 col-form-label">Géneros</label>
                 <div class="col-sm-5">
-                    <select class="form-select" id="genre1" name="genre1" [(ngModel)]="newMovie.genres[0]">
-                        @for (genre of genres; track genre.id) {
+                    <select class="form-select" id="genre1" name="genre1" [(ngModel)]="newMovie.genres![0]">
+                        @for (genre of genres(); track genre.id) {
                         <option [ngValue]="genre">{{ genre.name }}</option>
                         }
                     </select>
                 </div>
                 <div class="col-sm-5">
-                    <select class="form-select" id="genre2" name="genre2" [(ngModel)]="newMovie.genres[1]">
-                        @for (genre of genres; track genre.id) {
+                    <select class="form-select" id="genre2" name="genre2" [(ngModel)]="newMovie.genres![1]">
+                        @for (genre of genres(); track genre.id) {
                         <option [ngValue]="genre">{{ genre.name }}</option>
                         }
                     </select>
@@ -78,7 +78,7 @@
             </div>
         </div>
         <!--poster preview-->
-        <div class="col col-12 col-lg-3  d-flex justify-content-center">
+        <div class="col col-12 col-lg-3 d-flex justify-content-center">
             @if (newMovie.posterPath) {
 
             <img class="poster-preview img-fluid object-fit-cover" [src]="newMovie.posterPath" alt="" />

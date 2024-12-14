@@ -7,17 +7,23 @@ import { map, Observable } from 'rxjs';
 import { MoviesPaginationResponse } from '../interfaces/movies-pagination-response';
 import { SingleMovieResponse } from '../interfaces/single-movie-response';
 import { MoviesPagination } from '../interfaces/movies-pagination';
+import { GenresResponse } from '../interfaces/genres-response';
 
 @Injectable({
     providedIn: 'root',
 })
 export class MoviesService {
     #apiKey = environment.apiKey;
-    moviesUrl = 'https://api.themoviedb.org/3/discover/movie';
-    moviesTitleUrl = 'https://api.themoviedb.org/3/search/movie';
-    movieDetailUrl = 'https://api.themoviedb.org/3/movie';
+    baseUrl = 'https://api.themoviedb.org/3';
+    moviesUrl = this.baseUrl + '/discover/movie';
+    moviesTitleUrl = this.baseUrl + '/search/movie';
+    movieDetailUrl = this.baseUrl + '/movie';
+    genresUrl = this.baseUrl + '/genre/movie/list';
+    
+    //inject http service
     http = inject(HttpClient);
 
+    //get movies filtered by the specified options. Defaults to no filters.
     getMovies(
         filterOptions: HttpParams = new HttpParams()
     ): Observable<MoviesPagination> {
@@ -76,7 +82,7 @@ export class MoviesService {
                     return {
                         page: response.page,
                         results: response.results.map((movieResponse) => {
-                            console.log(movieResponse)
+                            console.log(movieResponse);
                             return {
                                 id: movieResponse.id,
                                 title: movieResponse.title,
@@ -140,84 +146,19 @@ export class MoviesService {
         const hello = id + newRating;
     }
 
-    getGenres(): Genre[] {
-        return [
-            {
-                id: 28,
-                name: 'Acción',
-            },
-            {
-                id: 12,
-                name: 'Aventura',
-            },
-            {
-                id: 16,
-                name: 'Animación',
-            },
-            {
-                id: 35,
-                name: 'Comedia',
-            },
-            {
-                id: 80,
-                name: 'Crimen',
-            },
-            {
-                id: 99,
-                name: 'Documental',
-            },
-            {
-                id: 18,
-                name: 'Drama',
-            },
-            {
-                id: 10751,
-                name: 'Familia',
-            },
-            {
-                id: 14,
-                name: 'Fantasía',
-            },
-            {
-                id: 36,
-                name: 'Historia',
-            },
-            {
-                id: 27,
-                name: 'Terror',
-            },
-            {
-                id: 10402,
-                name: 'Música',
-            },
-            {
-                id: 9648,
-                name: 'Misterio',
-            },
-            {
-                id: 10749,
-                name: 'Romance',
-            },
-            {
-                id: 878,
-                name: 'Ciencia ficción',
-            },
-            {
-                id: 10770,
-                name: 'Película de TV',
-            },
-            {
-                id: 53,
-                name: 'Suspense',
-            },
-            {
-                id: 10752,
-                name: 'Bélica',
-            },
-            {
-                id: 37,
-                name: 'Western',
-            },
-        ];
+    getGenres(): Observable<Genre[]> {
+        const headers = {
+            accept: 'application/json',
+            Authorization: `Bearer ${this.#apiKey}`,
+        };
+        return this.http
+            .get<GenresResponse>(this.genresUrl, {
+                headers,
+            })
+            .pipe(
+                map<GenresResponse, Genre[]>((response) => {
+                    return response.genres;
+                })
+            );
     }
 }
