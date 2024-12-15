@@ -11,6 +11,7 @@ import {
 import { HttpErrorResponse } from '@angular/common/http';
 import { debounceTime, Subscription } from 'rxjs';
 import { MoviesPagination } from '../interfaces/movies-pagination';
+import { LocalStorageService } from '../services/local-storage.service';
 
 @Component({
     selector: 'movies-page',
@@ -19,7 +20,8 @@ import { MoviesPagination } from '../interfaces/movies-pagination';
     styleUrl: './movies-page.component.css',
 })
 export class MoviesPageComponent {
-    moviesService = inject(MoviesService);
+    #moviesService = inject(MoviesService);
+    #localStorageService = inject(LocalStorageService);
     movies = signal<Movie[]>([]);
     defaultMovies: Movie[] = [];
     search = signal('');
@@ -53,12 +55,13 @@ export class MoviesPageComponent {
     //loads the default movies that are shown when the search term is empty
     loadDefaultMovies(): void {
         if (this.defaultMovies.length <= 0) {
-            this.moviesService
+            this.#moviesService
                 .getMovies()
                 .pipe(takeUntilDestroyed(this.destroyRef))
                 .subscribe({
                     next: (movies: MoviesPagination) => {
                         this.defaultMovies = movies.results;
+                        this.setRatingFromLocalStorage(this.defaultMovies);
                         this.movies.set(this.defaultMovies);
                     },
                     error: (error: HttpErrorResponse) => {
@@ -68,15 +71,24 @@ export class MoviesPageComponent {
         } else {
             this.movies.set(this.defaultMovies);
         }
-        
+    }
+
+    setRatingFromLocalStorage(movies: Movie[]){
+        movies.map(movie => {
+            const rating = this.#localStorageService.getMovieRating(movie.id!)
+            if(rating !== null){
+                movie.userRating = rating;
+            }   
+        })
     }
 
     getMoviesByTitle(title: string): void {
-        this.moviesService
+        this.#moviesService
             .getMoviesByTitle(title)
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
                 next: (movies: MoviesPagination) => {
+                    this.setRatingFromLocalStorage(movies.results);
                     this.movies.set(movies.results);
                 },
                 error: (error: HttpErrorResponse) => {

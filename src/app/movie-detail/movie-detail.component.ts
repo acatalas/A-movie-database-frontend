@@ -1,5 +1,4 @@
 import {
-    ChangeDetectorRef,
     Component,
     DestroyRef,
     effect,
@@ -17,6 +16,7 @@ import { MinutesToHoursPipe } from '../pipes/minutes-to-hours.pipe';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { LocalStorageService } from '../services/local-storage.service';
 
 @Component({
     selector: 'movie-detail',
@@ -26,24 +26,25 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class MovieDetailComponent {
     id = input.required({ transform: numberAttribute });
+
+    #moviesService = inject(MoviesService);
+    #localStorageService = inject(LocalStorageService);
+    #destroyRef = inject(DestroyRef);
+    #title = inject(Title);
+    
     movie = signal<Movie | null>(null);
     genreTitles: string[] | undefined = undefined;
-    #moviesService = inject(MoviesService);
-    changeDetector = inject(ChangeDetectorRef);
-    destroyRef = inject(DestroyRef);
-    #title = inject(Title);
-
+    
     constructor() {
         effect(() => {
             this.#moviesService
                 .getMovie(this.id())
-                .pipe(takeUntilDestroyed(this.destroyRef))
+                .pipe(takeUntilDestroyed(this.#destroyRef))
                 .subscribe({
                     next: (movie) => {
+                        this.setRatingFromLocalStorage(movie);
                         this.movie.set(movie);
-                        this.#title.setTitle(
-                            this.movie()!.title
-                        );
+                        this.#title.setTitle(this.movie()!.title);
                         this.genreTitles = this.movie()?.genres!.flatMap(
                             (genre) => genre.name
                         );
@@ -55,7 +56,15 @@ export class MovieDetailComponent {
         });
     }
 
+    setRatingFromLocalStorage(movie: Movie) {
+        const rating = this.#localStorageService.getMovieRating(movie.id!);
+        if (rating !== null) {
+            movie.userRating = rating;
+        }
+    }
+
     changeRating(rating: number) {
         this.movie()!.userRating = rating;
+        this.#localStorageService.saveMovieRating(this.movie()!.id!, rating);
     }
 }

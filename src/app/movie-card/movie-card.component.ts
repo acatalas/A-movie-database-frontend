@@ -3,7 +3,7 @@ import { Movie } from '../interfaces/movie';
 import { DecimalPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
-import { MoviesService } from '../services/movies.service';
+import { LocalStorageService } from '../services/local-storage.service';
 
 @Component({
   selector: 'movie-card',
@@ -13,12 +13,11 @@ import { MoviesService } from '../services/movies.service';
 })
 export class MovieCardComponent {
   movie = input.required<Movie>()
-  #moviesService = inject(MoviesService)
+  #localStorageService = inject(LocalStorageService)
 
   changeRating(rating: number) {
-    console.log(rating)
     this.movie()!.userRating = rating;
-    this.#moviesService.changeRating(this.movie()!.id!, rating)
+    this.#localStorageService.saveMovieRating(this.movie()!.id!, rating)
   }
 }
 
