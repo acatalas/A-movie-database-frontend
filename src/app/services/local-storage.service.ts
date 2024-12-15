@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { List } from '../interfaces/list';
 
 @Injectable({
     providedIn: 'root',
@@ -18,8 +19,58 @@ export class LocalStorageService {
         return Number(rating);
     }
 
-    hasMovieRating(id: number){
-      return this.#getItem('movie-' + id) !== null;
+    hasMovieRating(id: number) {
+        return this.#getItem('movie-' + id) !== null;
+    }
+
+    getLists(): List[] {
+        const listsJson = this.#getItem('lists');
+        if (listsJson === null) {
+            return [];
+        }
+        return JSON.parse(listsJson);
+    }
+
+    getList(id: number): List | null {
+        const lists = this.getLists();
+        if (lists.length <= 0) {
+            return null;
+        }
+        const list = lists.find((list) => {
+            return list.id === id;
+        });
+        return list === undefined ? null : list;
+    }
+
+    addList(list: List): void {
+      //get id to use
+      const newId = this.#getLastListId() + 1;
+      list.id = newId;
+
+      //add to existing lists
+      const lists = this.getLists();
+      lists.push(list);
+      this.#setItem('lists', JSON.stringify(lists))
+    }
+
+    deleteList(id: number): void {
+      const lists = this.getLists();
+      const filteredLists = lists.filter(list => list.id !== id);
+      this.#setItem('lists', JSON.stringify(filteredLists));
+    }
+
+    #getLastListId(): number {
+      const lists = this.getLists();
+      if(lists.length <= 0){
+        return 1;
+      }
+      const listIds = lists.flatMap(list => {
+        return list.id!;
+      })
+      listIds.sort(function(a, b) {
+        return a - b;
+      });
+      return listIds[listIds.length - 1];
     }
 
     // Set a value in local storage
