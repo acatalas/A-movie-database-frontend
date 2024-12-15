@@ -16,3 +16,12 @@ h2.page-header {
     font-weight: 600 !important;
     margin: 0;
 }
+
+button.btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+
+    &:hover {
+        background-color: var(--light-blue);
+    }
+}
