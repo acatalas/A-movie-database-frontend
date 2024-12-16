@@ -10,18 +10,43 @@
                     aria-expanded="true"
                     aria-controls="collapseProviders"
                 >
-                    Dónde se puede ver <span class="badge text-bg-secondary ms-2">{{watchProviders().length}}</span>
+                    Dónde se puede ver <span class="badge text-bg-secondary ms-2">{{ watchProviders().length }}</span>
                 </button>
             </h2>
             <div id="collapseProviders" class="accordion-collapse collapse show" data-bs-parent="#watchProvidersAccordion">
                 <div class="accordion-body" id="watch-providers">
                     @for (watchProvider of watchProviders(); track watchProvider.id; let i = $index) {
+                    <div class="watch-provider">
+                        <input
+                            type="checkbox"
+                            id="watchProvider{{ watchProvider.id }}"
+                            name="{{ watchProvider.providerName }}"
+                            (change)="updateSelection($event, watchProvider)"
+                        />
+                        <label for="watchProvider{{ watchProvider.id }}"
+                            ><img
+                                [src]="'https://image.tmdb.org/t/p/original/' + watchProvider.logoPath"
+                                alt="{{ watchProvider.providerName }}"
+                                class="watch-provider-logo"
+                        /></label>
+                    </div>
+                    } @empty {
+                    <p>No watch providers were found for your region.</p>
+                    } 
+                    
+                    <!--@for (watchProvider of watchProviders(); track watchProvider.id; let i = $index) {
                     <div class="form-check" class="watch-provider">
-                        <input class="form-check-input" type="checkbox" name="{{watchProvider.providerName}}" id="watchProvider{{watchProvider.id}}" (change)="updateSelection($event, watchProvider)" />
-                        <label class="form-check-label" for="watchProvider{{watchProvider.id}}">
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="{{ watchProvider.providerName }}"
+                            id="watchProvider{{ watchProvider.id }}"
+                            (change)="updateSelection($event, watchProvider)"
+                        />
+                        <label class="form-check-label" for="watchProvider{{ watchProvider.id }}">
                             <img
                                 [src]="'https://image.tmdb.org/t/p/original/' + watchProvider.logoPath"
-                                alt="{{watchProvider.providerName}}"
+                                alt="{{ watchProvider.providerName }}"
                                 class="watch-provider-logo"
                             />
                             <span>{{ watchProvider.providerName }}</span>
@@ -29,7 +54,7 @@
                     </div>
                     } @empty {
                     <p>No watch providers were found for your region.</p>
-                    }
+                }-->
                 </div>
             </div>
         </div>
