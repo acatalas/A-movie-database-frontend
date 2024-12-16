@@ -1,6 +1,16 @@
 .card {
     height: 100%;
 
+    button#add {
+        position: absolute;
+        top: 1em;
+        right: 1em;
+    }
+
+    .dropdown-menu li button[disabled]{
+        text-decoration: none;
+    }
+
     & > a {
         background-color: #dbdbdb;
 

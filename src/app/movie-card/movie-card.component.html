@@ -1,13 +1,37 @@
 <div class="card">
+    <div class="dropdown">
+        <button class="btn btn-primary btn-sm fw-bold" id="add" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-plus-lg"></i></button>
+        <ul class="dropdown-menu">
+            <li><button class="dropdown-item disabled" aria-disabled="true">Añadir a lista:</button></li>
+            <li><hr class="dropdown-divider"></li>
+            @for (list of lists; track list.id) {
+                @if(listHasMovie(list)){
+                    <li><button (click)="removeMovieFromList(list)" class="dropdown-item text-danger">Eliminar de la lista: {{list.title}}</button></li>
+                } @else {
+                    <li><button (click)="addMovieToList(list)" class="dropdown-item">Añadir a la lista: {{list.title}}</button></li>
+                }
+            } @empty {
+                <li>Aún no se ha creado ninguna lista</li>
+            }
+        </ul>
+    </div>
+
     <a [routerLink]="['/movies', movie().id]">
-        <img [src]="movie().posterPath === null ? '/img/no-image-placeholder.svg' : 'https://image.tmdb.org/t/p/w500' + movie().posterPath" alt="" class="card-img-top" [class.no-image]="movie().posterPath === null">
+        <img
+            [src]="movie().posterPath === null ? '/img/no-image-placeholder.svg' : 'https://image.tmdb.org/t/p/w500' + movie().posterPath"
+            alt=""
+            class="card-img-top"
+            [class.no-image]="movie().posterPath === null"
+        />
     </a>
     <div class="card-body">
-        <p class="card-title"><a [routerLink]="['/movies', movie().id]">{{movie().title}}</a></p>
-        <p class="card-subtitle">{{movie().releaseDate}}</p>
+        <p class="card-title">
+            <a [routerLink]="['/movies', movie().id]">{{ movie().title }}</a>
+        </p>
+        <p class="card-subtitle">{{ movie().releaseDate | intlDate : "medium" : "es-ES"  }}</p>
     </div>
     <div class="card-footer d-flex">
-        <p class="card-text me-auto mb-0">{{movie().voteAverage | number: '1.0-1'}} </p>
+        <p class="card-text me-auto mb-0">{{ movie().voteAverage | number : "1.0-1" }}</p>
         <star-rating [rating]="movie().userRating" (ratingChange)="changeRating($event)"></star-rating>
     </div>
 </div>

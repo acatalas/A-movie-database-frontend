@@ -1,6 +1,4 @@
 .card {
-    height: 100%;
-
     img {
         aspect-ratio: 2 / 3;
         object-fit: fill;
@@ -10,7 +8,7 @@
         }
     }
 
-    & > a {
+    .poster-container {
         background-color: #dbdbdb;
     }
 

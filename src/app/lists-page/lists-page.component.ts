@@ -14,12 +14,14 @@ export class ListsPageComponent {
     #listsService = inject(ListsService);
     lists = signal(this.#listsService.getLists());
     newList: List = {
+        id: 0,
         title: '',
         description: '',
         favoriteCount: 0,
         itemCount: 0,
         listType: '',
         posterPath: null,
+        movies: []
     };
 
     addList(listForm: NgForm) {

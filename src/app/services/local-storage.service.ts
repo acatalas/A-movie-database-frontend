@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { List } from '../interfaces/list';
+import { Movie } from '../interfaces/movie';
 
 @Injectable({
     providedIn: 'root',
@@ -43,34 +44,87 @@ export class LocalStorageService {
     }
 
     addList(list: List): void {
-      //get id to use
-      const newId = this.#getLastListId() + 1;
-      list.id = newId;
+        //get id to use
+        if (list.id === 0) {
+            list.id = this.#getLastListId() + 1;
+        }
 
-      //add to existing lists
-      const lists = this.getLists();
-      lists.push(list);
-      this.#setItem('lists', JSON.stringify(lists))
+        //add to existing lists
+        const lists = this.getLists();
+        lists.push(list);
+        this.#setItem('lists', JSON.stringify(lists));
     }
 
     deleteList(id: number): void {
-      const lists = this.getLists();
-      const filteredLists = lists.filter(list => list.id !== id);
-      this.#setItem('lists', JSON.stringify(filteredLists));
+        const lists = this.getLists();
+        const filteredLists = lists.filter((list) => list.id !== id);
+        this.#setItem('lists', JSON.stringify(filteredLists));
+    }
+
+    addMovieToList(list_id: number, movie: Movie): void {
+        const list = this.getList(list_id);
+
+        //check if the movie is already in the list
+        if (list === null) {
+            return;
+        }
+
+        const duplicateMovies = list.movies.filter((m) => m.id === movie.id);
+
+        //if the movie is already in the list, do nothing.
+        if (duplicateMovies.length > 0) {
+            return;
+        }
+
+        list.posterPath = movie.posterPath;
+        
+        //add movie to list
+        list.movies.push(movie);
+
+        //delete list from storage
+        this.deleteList(list_id);
+
+        //add list
+        this.addList(list!);
+    }
+
+    removeMovieFromList(list_id: number, movie: Movie) {
+        const list = this.getList(list_id);
+
+        //check if the movie is already in the list
+        if (list === null) {
+            return;
+        }
+
+        const movieIndex = list.movies.findIndex((m) => m.id === movie.id);
+
+        //if the movie isn't in the list, do nothing
+        if (movieIndex < 0) {
+            return;
+        }
+
+        //remove movie from list
+        list?.movies.splice(movieIndex, 1);
+
+        //delete list from storage
+        this.deleteList(list_id);
+
+        //add list
+        this.addList(list!);
     }
 
     #getLastListId(): number {
-      const lists = this.getLists();
-      if(lists.length <= 0){
-        return 1;
-      }
-      const listIds = lists.flatMap(list => {
-        return list.id!;
-      })
-      listIds.sort(function(a, b) {
-        return a - b;
-      });
-      return listIds[listIds.length - 1];
+        const lists = this.getLists();
+        if (lists.length <= 0) {
+            return 0;
+        }
+        const listIds = lists.flatMap((list) => {
+            return list.id!;
+        });
+        listIds.sort(function (a, b) {
+            return a - b;
+        });
+        return listIds[listIds.length - 1];
     }
 
     // Set a value in local storage
