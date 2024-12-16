@@ -1,9 +1,10 @@
 import { Component, input, output } from '@angular/core';
 import { List } from '../interfaces/list';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'list-card',
-    imports: [],
+    imports: [RouterLink],
     templateUrl: './list-card.component.html',
     styleUrl: './list-card.component.css',
 })

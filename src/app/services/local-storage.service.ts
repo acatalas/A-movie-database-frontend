@@ -9,6 +9,18 @@ export class LocalStorageService {
     //stores the rating of a movie
     saveMovieRating(id: number, rating: number): void {
         this.#setItem('movie-' + id, rating + '');
+        this.#updateMovieRatingInLists(id, rating);
+    }
+
+    #updateMovieRatingInLists(id: number, rating: number): void {
+        const lists = this.getLists();
+        for (const list of lists) {
+            const movieIndex = list.movies.findIndex((m) => m.id === id);
+            if(movieIndex >= 0){
+                list.movies[movieIndex].userRating = rating;
+            }   
+        }
+        this.#setItem('lists', JSON.stringify(lists));
     }
 
     //retrieves the rating of a movie, or null if it hasn't been stored
@@ -77,7 +89,7 @@ export class LocalStorageService {
         }
 
         list.posterPath = movie.posterPath;
-        
+
         //add movie to list
         list.movies.push(movie);
 
@@ -104,7 +116,12 @@ export class LocalStorageService {
         }
 
         //remove movie from list
-        list?.movies.splice(movieIndex, 1);
+        list.movies.splice(movieIndex, 1);
+
+        //if there are no more movies in the list, reset the poster
+        if (list.movies.length <= 0) {
+            list.posterPath = null;
+        }
 
         //delete list from storage
         this.deleteList(list_id);

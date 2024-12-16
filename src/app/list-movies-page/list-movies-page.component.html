@@ -1,0 +1,12 @@
+<div class="container-lg">
+    <h2 class="mt-4 page-header">{{ list()?.title }}</h2>
+    <p>{{ list()?.description }}</p>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 mt-1 g-4">
+        @for (movie of list()?.movies; track movie.id) {
+        <movie-card [movie]="movie" class="col"></movie-card>
+        } @empty {
+        <p>No tienes películas en esta lista</p>
+        }
+    </div>
+</div>
