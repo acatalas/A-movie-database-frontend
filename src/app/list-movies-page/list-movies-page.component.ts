@@ -31,4 +31,19 @@ export class ListMoviesPageComponent {
             this.#title.setTitle(this.list()!.title + ' | Lista');
         });
     }
+
+    removeFromList(list_id: number, movie_id: number): void {
+        //check that the movie is being removed from the current list
+        if (this.list()!.id !== list_id) {
+            return;
+        }
+
+        //find the index of the movie inside the list
+        const movieId = this.list()!.movies.findIndex((m) => m.id === movie_id);
+
+        //if found, remove from current list
+        if (movieId >= 0) {
+            this.list()?.movies.splice(movieId, 1);
+        }
+    }
 }
