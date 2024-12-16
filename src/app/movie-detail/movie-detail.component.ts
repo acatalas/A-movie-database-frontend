@@ -10,7 +10,7 @@ import {
 import { Movie } from '../interfaces/movie';
 import { MoviesService } from '../services/movies.service';
 import { Title } from '@angular/platform-browser';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { IntlDatePipe } from '../pipes/intl-date.pipe';
 import { MinutesToHoursPipe } from '../pipes/minutes-to-hours.pipe';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
@@ -20,7 +20,7 @@ import { LocalStorageService } from '../services/local-storage.service';
 
 @Component({
     selector: 'movie-detail',
-    imports: [DatePipe, IntlDatePipe, MinutesToHoursPipe, StarRatingComponent],
+    imports: [DatePipe, IntlDatePipe, MinutesToHoursPipe, DecimalPipe, StarRatingComponent],
     templateUrl: './movie-detail.component.html',
     styleUrl: './movie-detail.component.css',
 })
