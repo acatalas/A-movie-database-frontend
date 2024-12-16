@@ -6,6 +6,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MoviesPagination } from '../interfaces/movies-pagination';
 import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { MovieCardComponent } from '../movie-card/movie-card.component';
+import { FilterParams } from '../interfaces/filter-params';
 
 @Component({
     selector: 'movies-discover-page',
@@ -38,12 +39,15 @@ export class MoviesDiscoverPageComponent {
             });
     }
 
-    filterMovies(selectedProviders: number[]): void {
+    filterMovies(filterParams: FilterParams): void {
         //filter
-        const filterParamOptions = new HttpParams().set(
-            'with_watch_providers',
-            selectedProviders.join('|')
-        ).set("watch_region", "ES") //with_watch_providers: 1|2|55
+        const filterParamOptions = new HttpParams()
+            .set('with_watch_providers', filterParams.watchProviders.join('|'))
+            .set(
+                'with_watch_monetization_types',
+                filterParams.watchMonetizationTypes.join('|')
+            )
+            .set('watch_region', 'ES'); //with_watch_providers: 1|2|55
         this.moviesService
             .getMovies(filterParamOptions)
             .pipe(takeUntilDestroyed(this.destroyRef))
