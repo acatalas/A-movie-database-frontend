@@ -1,0 +1,22 @@
+/*Bootstrap override*/
+.rate h5 {
+    margin-bottom: 1em;
+}
+
+.watch-provider-logo {
+    width: 50px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.watch-provider {
+    margin-right: 1em;
+    width: 5em;
+    text-align: center;
+    font-size: 0.9em;
+    line-height: 1.3em;
+}
+
+.country {
+    display: flex;
+}

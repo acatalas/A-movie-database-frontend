@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Movie } from '../interfaces/movie';
 import { Genre } from '../interfaces/genre';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { MoviesPaginationResponse } from '../interfaces/movies-pagination-response';
 import { SingleMovieResponse } from '../interfaces/single-movie-response';
@@ -10,6 +10,9 @@ import { MoviesPagination } from '../interfaces/movies-pagination';
 import { GenresResponse } from '../interfaces/genres-response';
 import { WatchProvider } from '../interfaces/watch-provider';
 import { WatchProvidersResponse } from '../interfaces/watch-providers-response';
+import { AllWatchProvidersResponse } from '../interfaces/all-watch-providers-response';
+import { WatchProvidersByRate } from '../interfaces/watch-providers-by-rate';
+import { SingleWatchProviderResponse } from '../interfaces/single-watch-provider-response';
 
 @Injectable({
     providedIn: 'root',
@@ -34,10 +37,7 @@ export class MoviesService {
     getMovies(
         filterOptions: HttpParams = new HttpParams()
     ): Observable<MoviesPagination> {
-        const headers = {
-            accept: 'application/json',
-            Authorization: `Bearer ${this.#apiKey}`,
-        };
+        const headers = this.#getAuthHeaders();
         filterOptions = filterOptions
             .set('language', this.language)
             .set('region', this.region);
@@ -76,10 +76,7 @@ export class MoviesService {
     }
 
     getMoviesByTitle(title: string): Observable<MoviesPagination> {
-        const headers = {
-            accept: 'application/json',
-            Authorization: `Bearer ${this.#apiKey}`,
-        };
+        const headers = this.#getAuthHeaders();
         const params = new HttpParams()
             .set('query', title)
             .set('language', this.language)
@@ -119,13 +116,16 @@ export class MoviesService {
     }
 
     getMovie(id: number): Observable<Movie> {
-        const headers = {
-            accept: 'application/json',
-            Authorization: `Bearer ${this.#apiKey}`,
-        };
+        const headers = this.#getAuthHeaders();
+
+        const params = new HttpParams().set(
+            'append_to_response',
+            'watch/providers'
+        );
         return this.http
             .get<SingleMovieResponse>(this.movieDetailUrl + '/' + id, {
                 headers,
+                params,
             })
             .pipe(
                 map<SingleMovieResponse, Movie>((response) => {
@@ -143,6 +143,9 @@ export class MoviesService {
                         releaseDate: response.release_date, //"2024-10-09"
                         status: response.status, //"status": "Released",
                         userRating: 0,
+                        watchProviders: this.#mapWatchProviders(
+                            response['watch/providers']!
+                        ),
                     };
                 })
             );
@@ -153,16 +156,13 @@ export class MoviesService {
         //this.movies.push(movie);
     }
 
-    changeRating(id: number, newRating: number): void {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const hello = id + newRating;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    changeMovieRating(id: number, newRating: number): void {
+        //
     }
 
-    getGenres(): Observable<Genre[]> {
-        const headers = {
-            accept: 'application/json',
-            Authorization: `Bearer ${this.#apiKey}`,
-        };
+    getMovieGenres(): Observable<Genre[]> {
+        const headers = this.#getAuthHeaders();
         const params = new HttpParams().set('language', this.language);
         return this.http
             .get<GenresResponse>(this.genresUrl, {
@@ -177,10 +177,7 @@ export class MoviesService {
     }
 
     getWatchProviders(): Observable<WatchProvider[]> {
-        const headers = {
-            accept: 'application/json',
-            Authorization: `Bearer ${this.#apiKey}`,
-        };
+        const headers = this.#getAuthHeaders();
         const params = new HttpParams()
             .set('language', this.language)
             .set('watch_region', this.watchProviderRegion);
@@ -193,20 +190,96 @@ export class MoviesService {
                 map<WatchProvidersResponse, WatchProvider[]>(
                     (watchProvidersResponse) => {
                         return watchProvidersResponse.results.map(
-                            (singleWatchProviderResponse) => {
-                                return {
-                                    id: singleWatchProviderResponse.provider_id,
-                                    providerName:
-                                        singleWatchProviderResponse.provider_name,
-                                    displayPriority:
-                                        singleWatchProviderResponse.display_priority,
-                                    logoPath:
-                                        singleWatchProviderResponse.logo_path,
-                                };
-                            }
+                            this.#mapWatchProviderResponseToWatchProvider
                         );
                     }
                 )
             );
+    }
+
+    #getAuthHeaders(): HttpHeaders {
+        return new HttpHeaders()
+            .set('Accept', 'application/json')
+            .set('Authorization', `Bearer ${this.#apiKey}`);
+    }
+
+    #mapWatchProviders(
+        wpResponse: AllWatchProvidersResponse
+    ): WatchProvidersByRate {
+        const results = wpResponse.results;
+
+        const watchProvidersByRate: WatchProvidersByRate = {
+            rent: new Map<string, WatchProvider[]>(),
+            flatrate: new Map<string, WatchProvider[]>(),
+            buy: new Map<string, WatchProvider[]>(),
+            ads: new Map<string, WatchProvider[]>(),
+            free: new Map<string, WatchProvider[]>(),
+            countryLinks: new Map<string, string>(),
+        };
+
+        for (const [countryCode, countryInfo] of Object.entries(results)) {
+            //add country link to array
+            watchProvidersByRate.countryLinks.set(
+                countryCode,
+                countryInfo.link
+            );
+
+            if (countryInfo.rent !== undefined) {
+                watchProvidersByRate.rent.set(
+                    countryCode,
+                    countryInfo.rent.map(
+                        this.#mapWatchProviderResponseToWatchProvider
+                    )
+                );
+            }
+
+            if (countryInfo.flatrate !== undefined) {
+                watchProvidersByRate.flatrate.set(
+                    countryCode,
+                    countryInfo.flatrate.map(
+                        this.#mapWatchProviderResponseToWatchProvider
+                    )
+                );
+            }
+
+            if (countryInfo.buy !== undefined) {
+                watchProvidersByRate.buy.set(
+                    countryCode,
+                    countryInfo.buy.map(
+                        this.#mapWatchProviderResponseToWatchProvider
+                    )
+                );
+            }
+
+            if (countryInfo.ads !== undefined) {
+                watchProvidersByRate.ads.set(
+                    countryCode,
+                    countryInfo.ads.map(
+                        this.#mapWatchProviderResponseToWatchProvider
+                    )
+                );
+            }
+
+            if (countryInfo.free !== undefined) {
+                watchProvidersByRate.free.set(
+                    countryCode,
+                    countryInfo.free.map(
+                        this.#mapWatchProviderResponseToWatchProvider
+                    )
+                );
+            }
+        }
+        return watchProvidersByRate;
+    }
+
+    #mapWatchProviderResponseToWatchProvider(
+        wpResponse: SingleWatchProviderResponse
+    ): WatchProvider {
+        return {
+            id: wpResponse.provider_id,
+            providerName: wpResponse.provider_name,
+            displayPriority: wpResponse.display_priority,
+            logoPath: wpResponse.logo_path,
+        };
     }
 }

@@ -1,3 +1,4 @@
+import { AllWatchProvidersResponse } from "./all-watch-providers-response";
 import { Genre } from "./genre";
 
 export interface SingleMovieResponse {
@@ -18,4 +19,5 @@ export interface SingleMovieResponse {
     video: boolean;
     vote_average: number;
     vote_count: number;
+    'watch/providers'?: AllWatchProvidersResponse;
 }

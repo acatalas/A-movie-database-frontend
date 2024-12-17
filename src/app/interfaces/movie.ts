@@ -1,4 +1,5 @@
 import { Genre } from "./genre";
+import { WatchProvidersByRate } from "./watch-providers-by-rate";
 
 export interface Movie {
     id?: number;
@@ -15,4 +16,5 @@ export interface Movie {
     releaseDate: string; //"2024-10-09"
     status: string; //"status": "Released",
     userRating: number;
+    watchProviders?: WatchProvidersByRate;
 }

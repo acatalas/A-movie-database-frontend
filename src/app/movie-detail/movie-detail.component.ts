@@ -17,10 +17,11 @@ import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LocalStorageService } from '../services/local-storage.service';
+import { WatchProvidersComponent } from "../watch-providers/watch-providers.component";
 
 @Component({
     selector: 'movie-detail',
-    imports: [DatePipe, IntlDatePipe, MinutesToHoursPipe, DecimalPipe, StarRatingComponent],
+    imports: [DatePipe, IntlDatePipe, MinutesToHoursPipe, DecimalPipe, StarRatingComponent, WatchProvidersComponent],
     templateUrl: './movie-detail.component.html',
     styleUrl: './movie-detail.component.css',
 })
@@ -42,6 +43,7 @@ export class MovieDetailComponent {
                 .pipe(takeUntilDestroyed(this.#destroyRef))
                 .subscribe({
                     next: (movie) => {
+                        console.log(movie.watchProviders?.flatrate)
                         this.setRatingFromLocalStorage(movie);
                         this.movie.set(movie);
                         this.#title.setTitle(this.movie()!.title);

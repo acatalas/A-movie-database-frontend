@@ -30,7 +30,7 @@ export class MovieFormComponent {
     };
 
     constructor() {
-        this.#moviesService.getGenres().pipe(takeUntilDestroyed()).subscribe({
+        this.#moviesService.getMovieGenres().pipe(takeUntilDestroyed()).subscribe({
           next: (genres) => {
             this.genres.set(genres)
             this.newMovie.genres![0] = genres[0];
