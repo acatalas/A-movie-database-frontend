@@ -1,23 +1,42 @@
 <div class="rate">
     <!--LOOP RATES-->
     <div class="row rate-header">
-        <div class="col-md-8 ">
-            <h4>{{ watchRateTypes.get(filteredRates()!.rate) }}</h4>
+        <div class="col-md-8">
+            <h4>{{ watchRateTypes.get(selectedRateType()) }}</h4>
         </div>
         <div class="col-md-4">
-            <select name="" id="" [(ngModel)]="selectedRateType" class="form-select">
+            <select name="rate-type" id="rate-type" (change)="changeRate()" class="form-select" [(ngModel)]="selectedRateType">
                 @for (watchRateType of watchRateTypes | keyvalue; track watchRateType.key){
-                <option value="{{ watchRateType.key }}">{{ watchRateType.value }}</option>
+                <option value="{{ watchRateType.key }}">
+                    {{ watchRateType.value }} {{ " (" + getProvidersByRate(watchRateType.key)?.countries?.size + ")" }}
+                </option>
                 }
             </select>
         </div>
     </div>
     <div class="rate-body card">
-        <!--LOOP COUNTRIES-->
-        @for (countryRateProviders of filteredRates()!.countries | keyvalue; track countryRateProviders.key) {
-        <h5>{{ countryRateProviders.key | intlRegion : "ES" }} <a href="{{watchProviders()?.countryLinks?.get(countryRateProviders.key)}}" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></h5>
-        <!--LOOP PROVIDERS-->
+        <!--List countries with specified rate options-->
+        @if(filteredCountries().size >= 1){
+        <select name="countries" id="countries" class="form-select" [(ngModel)]="selectedCountry">
+            <option value="all">Todos</option>
+            @for(countryRateProviders of filteredRates()!.countries | keyvalue; track countryRateProviders.key){
+            <option value="{{ countryRateProviders.key }}">
+                {{ countryRateProviders.key | intlRegion : "ES" }} {{ " (" + countryRateProviders.value.length + ")" }}
+            </option>
+            }
+        </select>
+        <hr />
+        }
+        <!--LOOP COUNTRIES - add selected -->
+        @for (countryRateProviders of filteredCountries() | keyvalue; track countryRateProviders.key) {
+        <h5>
+            {{ countryRateProviders.key | intlRegion : "ES" }}
+            <a href="{{ watchProviders()?.countryLinks?.get(countryRateProviders.key) }}" target="_blank"
+                ><i class="bi bi-box-arrow-up-right"></i
+            ></a>
+        </h5>
         <div class="country">
+            <!--LOOP PROVIDERS-->
             @for (watchProvider of countryRateProviders.value; track watchProvider.id) {
             <div class="watch-provider">
                 <img

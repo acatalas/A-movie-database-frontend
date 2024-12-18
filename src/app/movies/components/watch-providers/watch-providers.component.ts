@@ -1,8 +1,9 @@
-import { Component, computed, input, signal, effect } from '@angular/core';
+import { Component, computed, input, signal } from '@angular/core';
 import { KeyValuePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IntlRegionPipe } from '../../../pipes/intl-region.pipe';
 import { WatchProvidersByRate, WatchProvidersRate } from '../../../interfaces/watch-providers-by-rate';
+import { WatchProvider } from '../../../interfaces/watch-provider';
 
 @Component({
     selector: 'watch-providers',
@@ -13,6 +14,7 @@ import { WatchProvidersByRate, WatchProvidersRate } from '../../../interfaces/wa
 export class WatchProvidersComponent {
     watchProviders = input<WatchProvidersByRate>();
     selectedRateType = signal<string>('free');
+    selectedCountry = signal<string>('all');
 
     watchRateTypes = new Map([
         ['free', 'Gratis'],
@@ -23,36 +25,29 @@ export class WatchProvidersComponent {
     ]);
 
     filteredRates = computed(() => {
+        console.log(this.selectedRateType())
         const rate = this.selectedRateType();
-        return this.getProvidersByRate(rate);
+        const rateProviders = this.getProvidersByRate(rate);
+        return rateProviders;
     });
 
-    constructor() {
-        //load the providers count
-        effect(() => {
-            for (const [rate, rateName] of this.watchRateTypes) {
-                const wpRate = this.getProvidersByRate(rate);
-
-                if (wpRate !== null) {
-                    this.watchRateTypes.set(
-                        rate,
-                        rateName + ' (' + wpRate.countries.size + ')'
-                    );
-                }
-            }
-        });
-    }
+    filteredCountries = computed<Map<string, WatchProvider[]>>(() => {
+        const rate = this.selectedRateType();
+        const country = this.selectedCountry();
+        const rateProviders = this.getProvidersByRate(rate);
+        //return all countries
+        if (country === 'all') {
+            console.log(rateProviders!.countries);
+            return rateProviders!.countries;
+        }
+        return new Map([[country, rateProviders!.countries.get(country)!]]);
+    });
 
     getProvidersByRate(rate: string): WatchProvidersRate | null {
-        return (
-            this.watchProviders()?.rates.find(
-                (wpRate) => wpRate.rate === rate
-            ) || null
-        );
+        return this.watchProviders()?.rates.find((wpRate) => wpRate.rate === rate) || null;
     }
 
-    changeRate(event: Event): void {
-        const rate = (event.target! as HTMLInputElement).value;
-        this.selectedRateType.set(rate);
+    changeRate(): void {
+        this.selectedCountry.set('all');
     }
 }
