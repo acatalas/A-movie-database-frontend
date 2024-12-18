@@ -6,26 +6,19 @@ import { Movie } from '../interfaces/movie';
     providedIn: 'root',
 })
 export class LocalStorageService {
+    //single movie ratings are stored with the 'movie-{id}' key
+    movieKeyPrefix = 'movie-';
+    movieListsKey = 'lists';
+
     //stores the rating of a movie
     saveMovieRating(id: number, rating: number): void {
-        this.#setItem('movie-' + id, rating + '');
+        this.#setItem(this.movieKeyPrefix + id, rating + '');
         this.#updateMovieRatingInLists(id, rating);
-    }
-
-    #updateMovieRatingInLists(id: number, rating: number): void {
-        const lists = this.getLists();
-        for (const list of lists) {
-            const movieIndex = list.movies.findIndex((m) => m.id === id);
-            if(movieIndex >= 0){
-                list.movies[movieIndex].userRating = rating;
-            }   
-        }
-        this.#setItem('lists', JSON.stringify(lists));
     }
 
     //retrieves the rating of a movie, or null if it hasn't been stored
     getMovieRating(id: number): number | null {
-        const rating = this.#getItem('movie-' + id);
+        const rating = this.#getItem(this.movieKeyPrefix  + id);
         if (rating === null) {
             return null;
         }
@@ -33,11 +26,11 @@ export class LocalStorageService {
     }
 
     hasMovieRating(id: number) {
-        return this.#getItem('movie-' + id) !== null;
+        return this.#getItem(this.movieKeyPrefix  + id) !== null;
     }
 
     getLists(): List[] {
-        const listsJson = this.#getItem('lists');
+        const listsJson = this.#getItem(this.movieListsKey);
         if (listsJson === null) {
             return [];
         }
@@ -49,28 +42,20 @@ export class LocalStorageService {
         if (lists.length <= 0) {
             return null;
         }
-        const list = lists.find((list) => {
-            return list.id === id;
-        });
+        const list = lists.find((list) => list.id === id);
         return list === undefined ? null : list;
     }
 
     addList(list: List): void {
         //get id to use
         if (list.id === 0) {
-            list.id = this.#getLastListId() + 1;
+            list.id = this.#getLatestListId() + 1;
         }
 
         //add to existing lists
         const lists = this.getLists();
         lists.push(list);
-        this.#setItem('lists', JSON.stringify(lists));
-    }
-
-    deleteList(id: number): void {
-        const lists = this.getLists();
-        const filteredLists = lists.filter((list) => list.id !== id);
-        this.#setItem('lists', JSON.stringify(filteredLists));
+        this.#setItem(this.movieListsKey, JSON.stringify(lists));
     }
 
     addMovieToList(list_id: number, movie: Movie): void {
@@ -130,17 +115,31 @@ export class LocalStorageService {
         this.addList(list!);
     }
 
-    #getLastListId(): number {
+    deleteList(id: number): void {
+        const lists = this.getLists();
+        const filteredLists = lists.filter((list) => list.id !== id);
+        this.#setItem(this.movieListsKey, JSON.stringify(filteredLists));
+    }
+
+    //updates the local movie ratings in local lists
+    #updateMovieRatingInLists(id: number, rating: number): void {
+        const lists = this.getLists();
+        for (const list of lists) {
+            const movieIndex = list.movies.findIndex((m) => m.id === id);
+            if (movieIndex >= 0) {
+                list.movies[movieIndex].userRating = rating;
+            }
+        }
+        this.#setItem(this.movieListsKey, JSON.stringify(lists));
+    }
+
+    #getLatestListId(): number {
         const lists = this.getLists();
         if (lists.length <= 0) {
             return 0;
         }
-        const listIds = lists.flatMap((list) => {
-            return list.id!;
-        });
-        listIds.sort(function (a, b) {
-            return a - b;
-        });
+        const listIds = lists.flatMap((list) => list.id!);
+        listIds.sort((a, b) => a - b);
         return listIds[listIds.length - 1];
     }
 
