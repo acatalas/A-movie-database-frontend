@@ -1,17 +1,13 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
-import { MovieCardComponent } from '../movie-card/movie-card.component';
-import { MoviesService } from '../services/movies.service';
 import { FormsModule } from '@angular/forms';
-import { Movie } from '../interfaces/movie';
-import {
-    takeUntilDestroyed,
-    toObservable,
-    toSignal,
-} from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
 import { debounceTime, Subscription } from 'rxjs';
-import { MoviesPagination } from '../interfaces/movies-pagination';
-import { LocalStorageService } from '../services/local-storage.service';
+import { MoviesService } from '../../../services/movies.service';
+import { LocalStorageService } from '../../../services/local-storage.service';
+import { Movie } from '../../../interfaces/movie';
+import { MoviesPagination } from '../../../interfaces/movies-pagination';
+import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 
 @Component({
     selector: 'movies-page',
@@ -28,18 +24,13 @@ export class MoviesPageComponent {
 
     //convert search() signal to observable since signals don't have a native debounceTime equivalent,
     //then, convert it back to a signal, since we want to make use of their functionalities
-    delayedSearchTerm = toSignal(
-        toObservable(this.search).pipe(debounceTime(1000)),
-        { initialValue: '' }
-    );
+    delayedSearchTerm = toSignal(toObservable(this.search).pipe(debounceTime(1000)), { initialValue: '' });
 
     destroyRef = inject(DestroyRef);
 
     filteredMovies = new Subscription();
     constructor() {
-        this.filteredMovies = toObservable<string>(
-            this.delayedSearchTerm
-        ).subscribe({
+        this.filteredMovies = toObservable<string>(this.delayedSearchTerm).subscribe({
             next: (searchTerm) => {
                 //if no search term is supplied, get Discovery movies, since a search term is needed for the search endpoint
                 if (searchTerm === '') {
@@ -73,13 +64,13 @@ export class MoviesPageComponent {
         }
     }
 
-    setRatingFromLocalStorage(movies: Movie[]){
-        movies.map(movie => {
-            const rating = this.#localStorageService.getMovieRating(movie.id!)
-            if(rating !== null){
+    setRatingFromLocalStorage(movies: Movie[]) {
+        movies.map((movie) => {
+            const rating = this.#localStorageService.getMovieRating(movie.id!);
+            if (rating !== null) {
                 movie.userRating = rating;
-            }   
-        })
+            }
+        });
     }
 
     getMoviesByTitle(title: string): void {

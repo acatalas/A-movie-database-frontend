@@ -4,15 +4,15 @@ import { Genre } from '../interfaces/genre';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { MoviesPaginationResponse } from '../interfaces/movies-pagination-response';
-import { SingleMovieResponse } from '../interfaces/single-movie-response';
-import { MoviesPagination } from '../interfaces/movies-pagination';
-import { GenresResponse } from '../interfaces/genres-response';
-import { WatchProvider } from '../interfaces/watch-provider';
-import { WatchProvidersResponse } from '../interfaces/watch-providers-response';
-import { AllWatchProvidersResponse } from '../interfaces/all-watch-providers-response';
+import { AllWatchProvidersResponse } from '../interfaces/responses/all-watch-providers-response';
 import { WatchProvidersByRate, WatchProvidersRate } from '../interfaces/watch-providers-by-rate';
-import { SingleWatchProviderResponse } from '../interfaces/single-watch-provider-response';
+import { SingleWatchProviderResponse } from '../interfaces/responses/single-watch-provider-response';
+import { MoviesPagination } from '../interfaces/movies-pagination';
+import { GenresResponse } from '../interfaces/responses/genres-response';
+import { MoviesPaginationResponse } from '../interfaces/responses/movies-pagination-response';
+import { SingleMovieResponse } from '../interfaces/responses/single-movie-response';
+import { WatchProvidersResponse } from '../interfaces/responses/watch-providers-response';
+import { WatchProvider } from '../interfaces/watch-provider';
 
 @Injectable({
     providedIn: 'root',

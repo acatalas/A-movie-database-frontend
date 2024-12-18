@@ -1,8 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
-import { ListsService } from '../services/lists.service';
+import { ListsService } from '../../../services/lists.service';
 import { FormsModule, NgForm } from '@angular/forms';
-import { List } from '../interfaces/list';
-import { ListCardComponent } from '../list-card/list-card.component';
+import { List } from '../../../interfaces/list';
+import { ListCardComponent } from '../../components/list-card/list-card.component';
 
 @Component({
     selector: 'lists-page',

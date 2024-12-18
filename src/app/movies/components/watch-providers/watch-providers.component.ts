@@ -1,11 +1,8 @@
 import { Component, computed, input, signal, effect } from '@angular/core';
-import {
-    WatchProvidersByRate,
-    WatchProvidersRate,
-} from '../interfaces/watch-providers-by-rate';
 import { KeyValuePipe } from '@angular/common';
-import { IntlRegionPipe } from '../pipes/intl-region.pipe';
 import { FormsModule } from '@angular/forms';
+import { IntlRegionPipe } from '../../../pipes/intl-region.pipe';
+import { WatchProvidersByRate, WatchProvidersRate } from '../../../interfaces/watch-providers-by-rate';
 
 @Component({
     selector: 'watch-providers',

@@ -1,21 +1,14 @@
-import {
-    Component,
-    effect,
-    inject,
-    input,
-    numberAttribute,
-    signal,
-} from '@angular/core';
-import { ListsService } from '../services/lists.service';
-import { List } from '../interfaces/list';
+import { Component, effect, inject, input, numberAttribute, signal } from '@angular/core';
+import { ListsService } from '../../../services/lists.service';
+import { List } from '../../../interfaces/list';
 import { Title } from '@angular/platform-browser';
-import { MovieCardComponent } from '../movie-card/movie-card.component';
+import { MovieCardComponent } from '../../../movies/components/movie-card/movie-card.component';
 
 @Component({
-    selector: 'list-movies-page',
+    selector: 'list-detail-page',
     imports: [MovieCardComponent],
-    templateUrl: './list-movies-page.component.html',
-    styleUrl: './list-movies-page.component.css',
+    templateUrl: './list-detail-page.component.html',
+    styleUrl: './list-detail-page.component.css',
 })
 export class ListMoviesPageComponent {
     id = input.required({ transform: numberAttribute });

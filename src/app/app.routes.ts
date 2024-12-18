@@ -1,16 +1,17 @@
 import { Routes } from '@angular/router';
-import { MoviesPageComponent } from './movies-page/movies-page.component';
-import { MovieDetailComponent } from './movie-detail/movie-detail.component';
-import { MoviesDiscoverPageComponent } from './movies-discover-page/movies-discover-page.component';
-import { ListsPageComponent } from './lists-page/lists-page.component';
-import { ListMoviesPageComponent } from './list-movies-page/list-movies-page.component';
+import { ListMoviesPageComponent } from './lists/pages/list-detail-page/list-detail-page.component';
+import { ListsPageComponent } from './lists/pages/lists-page/lists-page.component';
+import { MoviesDiscoverPageComponent } from './movies/pages/movies-discover-page/movies-discover-page.component';
+import { MoviesPageComponent } from './movies/pages/movies-page/movies-page.component';
+import { MovieDetailPageComponent } from './movies/pages/movie-detail-page/movie-detail-page.component';
+
 
 export const routes: Routes = [
     {
         path: 'movies',
         children: [
             { path: '', component: MoviesPageComponent },
-            { path: ':id', component: MovieDetailComponent },
+            { path: ':id', component: MovieDetailPageComponent },
         ],
     },
     { path: 'discover', component: MoviesDiscoverPageComponent },

@@ -1,11 +1,11 @@
-import { WatchProvider } from "./watch-provider";
+import { WatchProvider } from './watch-provider';
 
 export interface WatchProvidersByRate {
     rates: WatchProvidersRate[];
     countryLinks: Map<string, string>; //will map country code to tmdb link
 }
 
-export interface WatchProvidersRate{
+export interface WatchProvidersRate {
     rate: string;
-    countries: Map<string, WatchProvider[]>; 
+    countries: Map<string, WatchProvider[]>;
 }

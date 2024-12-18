@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, output, signal } from '@angular/core';
-import { MoviesService } from '../services/movies.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { WatchProvider } from '../interfaces/watch-provider';
 import { FormsModule } from '@angular/forms';
 import { KeyValuePipe } from '@angular/common';
-import { FilterParams } from '../interfaces/filter-params';
+import { FilterParams } from '../../../interfaces/filter-params';
+import { WatchProvider } from '../../../interfaces/watch-provider';
+import { MoviesService } from '../../../services/movies.service';
+
 
 @Component({
     selector: 'movies-filter',

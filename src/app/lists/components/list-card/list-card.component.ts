@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
-import { List } from '../interfaces/list';
 import { RouterLink } from '@angular/router';
+import { List } from '../../../interfaces/list';
 
 @Component({
     selector: 'list-card',

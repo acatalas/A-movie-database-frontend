@@ -1,12 +1,12 @@
 import { Component, inject, input, output } from '@angular/core';
-import { Movie } from '../interfaces/movie';
 import { DecimalPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
-import { LocalStorageService } from '../services/local-storage.service';
-import { ListsService } from '../services/lists.service';
-import { List } from '../interfaces/list';
-import { IntlDatePipe } from '../pipes/intl-date.pipe';
+import { List } from '../../../interfaces/list';
+import { Movie } from '../../../interfaces/movie';
+import { IntlDatePipe } from '../../../pipes/intl-date.pipe';
+import { ListsService } from '../../../services/lists.service';
+import { LocalStorageService } from '../../../services/local-storage.service';
 
 @Component({
     selector: 'movie-card',

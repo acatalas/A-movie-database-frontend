@@ -1,12 +1,12 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
-import { MoviesFilterComponent } from '../movies-filter/movies-filter.component';
-import { Movie } from '../interfaces/movie';
-import { MoviesService } from '../services/movies.service';
+import { Movie } from '../../../interfaces/movie';
+import { MoviesService } from '../../../services/movies.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MoviesPagination } from '../interfaces/movies-pagination';
+import { MoviesPagination } from '../../../interfaces/movies-pagination';
 import { HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { MovieCardComponent } from '../movie-card/movie-card.component';
-import { FilterParams } from '../interfaces/filter-params';
+import { FilterParams } from '../../../interfaces/filter-params';
+import { MoviesFilterComponent } from '../../components/movies-filter/movies-filter.component';
+import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 
 @Component({
     selector: 'movies-discover-page',
