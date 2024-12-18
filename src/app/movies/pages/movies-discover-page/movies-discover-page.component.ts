@@ -7,6 +7,7 @@ import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { FilterParams } from '../../../interfaces/filter-params';
 import { MoviesFilterComponent } from '../../components/movies-filter/movies-filter.component';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
+import { LocalStorageService } from '../../../services/local-storage.service';
 
 @Component({
     selector: 'movies-discover-page',
@@ -15,9 +16,10 @@ import { MovieCardComponent } from '../../components/movie-card/movie-card.compo
     styleUrl: './movies-discover-page.component.css',
 })
 export class MoviesDiscoverPageComponent {
-    moviesService = inject(MoviesService);
-    movies = signal<Movie[]>([]);
+    #moviesService = inject(MoviesService);
+    #localStorageService = inject(LocalStorageService);
 
+    movies = signal<Movie[]>([]);
     destroyRef = inject(DestroyRef);
 
     constructor() {
@@ -26,11 +28,12 @@ export class MoviesDiscoverPageComponent {
 
     //loads the default movies that are shown when the search term is empty
     loadDefaultMovies(): void {
-        this.moviesService
+        this.#moviesService
             .getMovies()
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
                 next: (movies: MoviesPagination) => {
+                    this.addRatingsFromLocalStorage(movies.results);
                     this.movies.set(movies.results);
                 },
                 error: (error: HttpErrorResponse) => {
@@ -40,24 +43,27 @@ export class MoviesDiscoverPageComponent {
     }
 
     filterMovies(filterParams: FilterParams): void {
-        //filter
-        const filterParamOptions = new HttpParams()
-            .set('with_watch_providers', filterParams.watchProviders.join('|'))
-            .set(
-                'with_watch_monetization_types',
-                filterParams.watchMonetizationTypes.join('|')
-            )
-            .set('watch_region', 'ES'); //with_watch_providers: 1|2|55
-        this.moviesService
+        const filterParamOptions = new HttpParams().set('with_watch_providers', filterParams.watchProviders.join('|')).set('with_watch_monetization_types', filterParams.watchMonetizationTypes.join('|')).set('watch_region', 'ES'); //with_watch_providers: 1|2|55
+        this.#moviesService
             .getMovies(filterParamOptions)
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
                 next: (movies: MoviesPagination) => {
+                    this.addRatingsFromLocalStorage(movies.results);
                     this.movies.set(movies.results);
                 },
                 error: (error: HttpErrorResponse) => {
                     console.error(`Error obteniendo productos: `, error);
                 },
             });
+    }
+
+    addRatingsFromLocalStorage(movies: Movie[]) {
+        movies.map((movie) => {
+            const rating = this.#localStorageService.getMovieRating(movie.id!);
+            if (rating !== null) {
+                movie.userRating = rating;
+            }
+        });
     }
 }

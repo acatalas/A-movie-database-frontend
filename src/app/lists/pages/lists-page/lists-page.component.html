@@ -1,17 +1,17 @@
 <div class="container-lg">
-    <h2 class="mt-4 page-header">Lists</h2>
-    <form (ngSubmit)="addList(listForm)" #listForm="ngForm" class="px-3">
-        <div class="row mt-4">
-            <label for="title" class="form-label">Titulo</label>
-            <input type="text" class="form-control" placeholder="Titulo" id="title" name="title" [(ngModel)]="newList.title" />
+    <h2 class="mt-4 page-header">Listas</h2>
+    <form (ngSubmit)="addList(listForm)" #listForm="ngForm">
+        <div class="mt-4 form-group">
+            <label for="title" class="form-label">Título</label>
+            <input type="text" class="form-control" placeholder="Título" id="title" name="title" [(ngModel)]="newList.title" />
         </div>
-        <div class="row mt-4">
+        <div class="mt-4 form-group">
             <label for="description" class="form-label">Sinopsis</label>
             <textarea
                 class="form-control"
                 id="description"
                 name="description"
-                placeholder="Descripción"
+                placeholder="Sinopsis"
                 [(ngModel)]="newList.description"
             ></textarea>
         </div>
@@ -19,11 +19,12 @@
             <button type="submit" class="btn btn-primary">Enviar</button>
         </div>
     </form>
+    <hr class="mt-4">
     <div class="mt-4">
         @for (list of lists(); track list.id!) {
         <list-card [list]="list" (delete)="deleteList(list)"></list-card>
         } @empty {
-        <p>You currently have no lists</p>
+        <p>Aún no has creado ninguna lista</p>
         }
     </div>
 </div>
