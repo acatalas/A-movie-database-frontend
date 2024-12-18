@@ -1,0 +1,20 @@
+footer {
+    background-color: var(--primary-color);
+    min-height: 5em;
+    color: var(--bs-light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+
+    p {
+        margin-bottom: 0;
+    }
+    a {
+        color: var(--bs-light);
+        &:hover {
+            color: var(--light-blue);
+        }
+    }
+}

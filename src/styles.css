@@ -1,14 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 :root {
     --primary-color: #032541;
-    --light-blue: #01B4E4;
+    --light-blue: #01b4e4;
     --lighter-gren: #c0fecf;
-    --light-green: #1ED5A9;
+    --light-green: #1ed5a9;
     --text-color: #000;
 }
 
 body {
     font-family: "Source Sans Pro", Arial, sans-serif;
+    padding-bottom: 3em;
 }
 
 h2.page-header {
