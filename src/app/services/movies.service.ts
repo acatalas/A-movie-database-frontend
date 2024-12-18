@@ -206,10 +206,9 @@ export class MoviesService {
 
     //map movies pagination response to the app's movies pagination interface
     #mapSingleMovieResponseToMovie(movieResponse: SingleMovieResponse): Movie {
-        return {
+        const movie: Movie = {
             id: movieResponse.id,
             title: movieResponse.title,
-            genre_ids: movieResponse.genre_ids,
             overview: movieResponse.overview,
             runtime: movieResponse.runtime,
             popularity: movieResponse.popularity,
@@ -221,6 +220,13 @@ export class MoviesService {
             status: movieResponse.status, //"status": "Released",
             userRating: 0,
         };
+        if (movieResponse.genre_ids !== undefined) {
+            movie.genre_ids = movieResponse.genre_ids;
+        }
+        if (movieResponse.genres !== undefined) {
+            movie.genres = movieResponse.genres;
+        }
+        return movie;
     }
 
     //map a single Watch Provider api response to the app's WatchProvider interface
