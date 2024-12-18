@@ -24,7 +24,7 @@ export class MoviesPageComponent {
 
     //convert search() signal to observable since signals don't have a native debounceTime equivalent,
     //then, convert it back to a signal, since we want to make use of their functionalities
-    delayedSearchTerm = toSignal(toObservable(this.search).pipe(debounceTime(1000)), { initialValue: '' });
+    delayedSearchTerm = toSignal(toObservable(this.search).pipe(debounceTime(500)), { initialValue: '' });
 
     destroyRef = inject(DestroyRef);
 
