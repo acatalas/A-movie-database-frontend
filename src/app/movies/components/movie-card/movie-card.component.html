@@ -1,17 +1,21 @@
 <div class="card">
     <div class="dropdown">
-        <button class="btn btn-primary btn-sm fw-bold" id="add" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-plus-lg"></i></button>
+        <button class="btn btn-primary btn-sm fw-bold" id="add" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-plus-lg"></i>
+        </button>
         <ul class="dropdown-menu">
             <li><button class="dropdown-item disabled" aria-disabled="true">Listas</button></li>
-            <li><hr class="dropdown-divider"></li>
-            @for (list of lists; track list.id) {
-                @if(listHasMovie(list)){
-                    <li><button (click)="removeMovieFromList(list)" class="dropdown-item text-danger">Eliminar de {{list.title}}</button></li>
-                } @else {
-                    <li><button (click)="addMovieToList(list)" class="dropdown-item">Añadir a {{list.title}}</button></li>
-                }
-            } @empty {
-                <li>Aún no se ha creado ninguna lista</li>
+            <li><hr class="dropdown-divider" /></li>
+            @for (list of lists; track list.id) { @if(listHasMovie(list)){
+            <li>
+                <button (click)="removeMovieFromList(list)" class="dropdown-item text-danger">Eliminar de {{ list.title }}</button>
+            </li>
+            } @else {
+            <li>
+                <button (click)="addMovieToList(list)" class="dropdown-item">Añadir a {{ list.title }}</button>
+            </li>
+            } } @empty {
+            <button class="dropdown-item disabled" aria-disabled="true">Aún no has creado ninguna lista</button>
             }
         </ul>
     </div>
@@ -28,7 +32,7 @@
         <p class="card-title">
             <a [routerLink]="['/movies', movie().id]">{{ movie().title }}</a>
         </p>
-        <p class="card-subtitle">{{ movie().releaseDate | intlDate : "medium" : "es-ES"  }}</p>
+        <p class="card-subtitle">{{ movie().releaseDate | intlDate : "medium" : "es-ES" }}</p>
     </div>
     <div class="card-footer d-flex">
         <p class="card-text me-auto mb-0">{{ movie().voteAverage | number : "1.0-1" }}</p>
