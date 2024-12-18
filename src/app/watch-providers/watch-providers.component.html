@@ -34,33 +34,3 @@
         }
     </div>
 </div>
-<!--<div class="rate">
-
-    <select name="" id="" (change)="changeRate($event)">
-    @for (watchRateType of watchRateTypes | keyvalue; track watchRateType.key){
-        <option value="{{watchRateType.key}}">{{watchRateType.value}}</option>
-    }
-</select>
-    
-    @for (providersByRate of watchProviders()!.rates; track providersByRate.rate) {
-    <h4>{{ watchRateTypes.get(providersByRate.rate) }}</h4>
-   
-    @for (countryRateProviders of providersByRate.countries | keyvalue; track countryRateProviders.key) {
-    <h5>{{ countryRateProviders.key | intlRegion : "ES" }}</h5>
-   
-    <div class="country">
-        @for (watchProvider of countryRateProviders.value; track watchProvider.id) {
-        <div class="watch-provider">
-            <img
-                [src]="'https://image.tmdb.org/t/p/original/' + watchProvider.logoPath"
-                alt="{{ watchProvider.providerName }}"
-                class="watch-provider-logo"
-            />
-            <p>{{ watchProvider.providerName }}</p>
-        </div>
-        }
-    </div>
-    } }@empty {
-    <p>No existen opciones para esta tarifa.</p>
-    }
-</div>-->

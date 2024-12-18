@@ -1,6 +1,15 @@
 /*Bootstrap override*/
-.rate h5 {
-    margin-bottom: 1em;
+.rate {
+    h5 {
+        margin-bottom: 1em;
+    }
+    .rate-body {
+        max-height: 17.5em;
+        min-height: 20vh;
+        overflow: auto;
+        margin-top: 1em;
+        padding: 1em;
+    }
 }
 
 .watch-provider-logo {
@@ -19,12 +28,4 @@
 
 .country {
     display: flex;
-}
-
-.rate-body {
-    max-height: 17.5em;
-    min-height: 20vh;
-    overflow: auto;
-    margin-top: 1em;
-    padding: 1em;
 }
