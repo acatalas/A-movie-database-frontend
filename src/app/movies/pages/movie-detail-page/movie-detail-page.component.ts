@@ -38,7 +38,7 @@ export class MovieDetailPageComponent {
                         console.log(movie);
                         this.setRatingFromLocalStorage(movie);
                         this.movie.set(movie);
-                        this.#title.setTitle(this.movie()!.title);
+                        this.#title.setTitle(this.movie()!.title + ' | aMDb' );
                         this.genreTitles = this.movie()?.genres!.flatMap((genre) => genre.name);
                     },
                     error: (error: HttpErrorResponse) => {

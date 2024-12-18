@@ -10,19 +10,18 @@ export const routes: Routes = [
     {
         path: 'movies',
         children: [
-            { path: '', component: MoviesPageComponent },
+            { path: '', component: MoviesPageComponent, title: 'a Movie Database' },
             { path: ':id', component: MovieDetailPageComponent },
         ],
     },
-    { path: 'discover', component: MoviesDiscoverPageComponent },
+    { path: 'discover', component: MoviesDiscoverPageComponent, title: 'Descubre | aMDb' },
     {
         path: 'lists',
         children: [
-            { path: '', component: ListsPageComponent },
+            { path: '', component: ListsPageComponent, title: 'Listas | aMDb' },
             { path: ':id', component: ListMoviesPageComponent },
         ],
     },
     { path: '', redirectTo: '/movies', pathMatch: 'full' },
-    // Aquí podríamos cargar un página de error 404 por ejemplo
     { path: '**', redirectTo: '/movies' },
 ];

@@ -21,7 +21,7 @@ export class ListMoviesPageComponent {
     constructor() {
         effect(() => {
             this.list.set(this.#listsService.getList(this.id()));
-            this.#title.setTitle(this.list()!.title + ' | Lista');
+            this.#title.setTitle(this.list()!.title + ' | aMDb');
         });
     }
 
