@@ -2,13 +2,13 @@
     <div class="dropdown">
         <button class="btn btn-primary btn-sm fw-bold" id="add" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-plus-lg"></i></button>
         <ul class="dropdown-menu">
-            <li><button class="dropdown-item disabled" aria-disabled="true">Añadir a lista:</button></li>
+            <li><button class="dropdown-item disabled" aria-disabled="true">Listas</button></li>
             <li><hr class="dropdown-divider"></li>
             @for (list of lists; track list.id) {
                 @if(listHasMovie(list)){
-                    <li><button (click)="removeMovieFromList(list)" class="dropdown-item text-danger">Eliminar de la lista: {{list.title}}</button></li>
+                    <li><button (click)="removeMovieFromList(list)" class="dropdown-item text-danger">Eliminar de {{list.title}}</button></li>
                 } @else {
-                    <li><button (click)="addMovieToList(list)" class="dropdown-item">Añadir a la lista: {{list.title}}</button></li>
+                    <li><button (click)="addMovieToList(list)" class="dropdown-item">Añadir a {{list.title}}</button></li>
                 }
             } @empty {
                 <li>Aún no se ha creado ninguna lista</li>

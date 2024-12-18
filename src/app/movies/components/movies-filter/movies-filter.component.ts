@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Component, inject, output, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
-import { KeyValuePipe } from '@angular/common';
 import { FilterParams } from '../../../interfaces/filter-params';
 import { WatchProvider } from '../../../interfaces/watch-provider';
 import { MoviesService } from '../../../services/movies.service';
@@ -10,7 +9,7 @@ import { MoviesService } from '../../../services/movies.service';
 
 @Component({
     selector: 'movies-filter',
-    imports: [FormsModule, KeyValuePipe],
+    imports: [FormsModule],
     templateUrl: './movies-filter.component.html',
     styleUrl: './movies-filter.component.css',
 })

@@ -15,7 +15,7 @@
             </h2>
             <div id="collapseProviders" class="accordion-collapse collapse show" data-bs-parent="#watchProvidersAccordion">
                 <div class="accordion-body" id="watch-providers w-100">
-                    <div id="watch-type">
+                    <!--<div id="watch-type">
                         @for(monetizationType of watchMonetizationTypes | keyvalue; track monetizationType.key) {
                         <div class="form-check mb-3">
                             <input
@@ -28,7 +28,7 @@
                             <label for="watchType{{ monetizationType.key }}" class="form-check-label">{{ monetizationType.value }}</label>
                         </div>
                         }
-                    </div>
+                    </div>-->
                     <div id="watch-providers">
                         @for (watchProvider of watchProviders(); track watchProvider.id; let i = $index) {
                         <div class="watch-provider">
