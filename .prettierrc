@@ -15,6 +15,12 @@
       "options": {
         "printWidth": 140
       }
+    },
+    {
+      "files": "*.ts",
+      "options": {
+        "printWidth": 300
+      }
     }
   ]
 }
