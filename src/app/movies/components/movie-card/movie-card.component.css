@@ -5,6 +5,10 @@
         position: absolute;
         top: 1em;
         right: 1em;
+        background-color: var(--primary-color);
+        &:hover {
+            background-color: var(--primary-color-darker);
+        }   
     }
 
     .dropdown-menu li button[disabled]{
@@ -33,7 +37,7 @@
             color: var(--text-color);
 
             &:hover {
-                color: var(--light-blue);
+                color: var(--accent);
             }
         }
     }
@@ -52,5 +56,9 @@
         star-rating {
             width: calc(0.65em * 10)
         }
+    }
+
+    .vote {
+        color: var(--primary-color-darker);
     }
 }

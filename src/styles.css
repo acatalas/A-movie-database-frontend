@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 :root {
-    --primary-color: #032541;
+    --primary-color: #00A6FB;
+    --primary-color-darker: #0071AA;
+    --accent: #ea0b55ff;
     --light-blue: #01b4e4;
     --lighter-gren: #c0fecf;
     --light-green: #1ed5a9;
@@ -23,6 +25,6 @@ button.btn-primary {
     border: none;
 
     &:hover {
-        background-color: var(--light-blue);
+        background-color: var(--primary-color-darker);
     }
 }

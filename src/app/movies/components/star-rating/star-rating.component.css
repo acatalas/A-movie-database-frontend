@@ -5,7 +5,7 @@
     }
 
     .star-full {
-      filter: brightness(0) saturate(100%) invert(77%) sepia(41%) saturate(6189%) hue-rotate(150deg) brightness(88%) contrast(106%);
+      filter: brightness(0) saturate(100%) invert(14%) sepia(99%) saturate(6397%) hue-rotate(335deg) brightness(94%) contrast(94%);
     }
     .star-empty {
       filter: invert(0.9)

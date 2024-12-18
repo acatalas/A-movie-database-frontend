@@ -35,7 +35,7 @@
         <p class="card-subtitle">{{ movie().releaseDate | intlDate : "medium" : "es-ES" }}</p>
     </div>
     <div class="card-footer d-flex">
-        <p class="card-text me-auto mb-0">{{ movie().voteAverage | number : "1.0-1" }}</p>
+        <p class="card-text me-auto mb-0 vote">{{ movie().voteAverage | number : "1.0-1" }}</p>
         <star-rating [rating]="movie().userRating" (ratingChange)="changeRating($event)"></star-rating>
     </div>
 </div>

@@ -6,7 +6,6 @@
     --bs-navbar-hover-color: var(--bs-light);
     --bs-navbar-active-color: var(--bs-light);
     --bs-navbar-padding-y: .75rem;
-    min-height: 64px;
 }
 
 .navbar div[class*='container'] {
@@ -43,4 +42,14 @@
 
 .navbar i {
     font-size: 1.2rem;
+}
+
+.navbar img {
+    height: 45px;
+}
+
+.nav-item a {
+    &:hover{
+        color: var(--accent);
+    }
 }
