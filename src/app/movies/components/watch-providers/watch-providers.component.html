@@ -15,7 +15,7 @@
     <div class="rate-body card">
         <!--LOOP COUNTRIES-->
         @for (countryRateProviders of filteredRates()!.countries | keyvalue; track countryRateProviders.key) {
-        <h5>{{ countryRateProviders.key | intlRegion : "ES" }}</h5>
+        <h5>{{ countryRateProviders.key | intlRegion : "ES" }} <a href="{{watchProviders()?.countryLinks?.get(countryRateProviders.key)}}" target="_blank"><i class="bi bi-box-arrow-up-right"></i></a></h5>
         <!--LOOP PROVIDERS-->
         <div class="country">
             @for (watchProvider of countryRateProviders.value; track watchProvider.id) {

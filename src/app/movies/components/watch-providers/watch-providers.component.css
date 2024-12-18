@@ -2,6 +2,15 @@
 .rate {
     h5 {
         margin-bottom: 1em;
+        a {
+            color: var(--primary-color);
+            vertical-align: text-top;
+            font-size: 1em;
+            margin-left: 0.2em;
+            &:hover {
+                color: var(--primary-color-darker);
+            }
+        }
     }
     .rate-body {
         max-height: 17.5em;
