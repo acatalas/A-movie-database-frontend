@@ -1,7 +1,7 @@
 <div class="mt-5 container-xxl px-5">
     @if (movie()) {
     <div class="row">
-        <div class="col col-4 poster">
+        <div class="col-12 col-sm-4 poster">
             <img
                 class="img-fluid"
                 [src]="
@@ -12,7 +12,7 @@
                 [class.no-image]="movie()!.posterPath === null"
             />
         </div>
-        <div class="col col-8 details">
+        <div class="col-12 col-sm-8 details mt-4 mt-sm-0">
             <h3>
                 {{ movie()!.title }}
                 <span class="year">({{ movie()!.releaseDate | date : "y" }})</span>

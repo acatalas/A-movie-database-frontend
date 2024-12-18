@@ -1,90 +1,55 @@
 <div class="rate">
-    <h4>Gratis</h4>
-    @for (freeProviders of watchProviders()?.free | keyvalue; track freeProviders.key) {
-    <h5>{{ freeProviders.key | intlRegion : "ES" }}</h5>
-    <div class="country">
-        @for (watchProvider of freeProviders.value; track watchProvider.id) {
-        <div class="watch-provider">
-            <img
-                [src]="'https://image.tmdb.org/t/p/original/' + watchProvider.logoPath"
-                alt="{{ watchProvider.providerName }}"
-                class="watch-provider-logo"
-            />
-            <p>{{ watchProvider.providerName }}</p>
+    <!--LOOP RATES-->
+    <div class="row rate-header">
+        <div class="col-md-8 ">
+            <h4>{{ watchRateTypes.get(filteredRates()!.rate) }}</h4>
         </div>
+        <div class="col-md-4">
+            <select name="" id="" [(ngModel)]="selectedRateType" class="form-select">
+                @for (watchRateType of watchRateTypes | keyvalue; track watchRateType.key){
+                <option value="{{ watchRateType.key }}">{{ watchRateType.value }}</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="rate-body card">
+        <!--LOOP COUNTRIES-->
+        @for (countryRateProviders of filteredRates()!.countries | keyvalue; track countryRateProviders.key) {
+        <h5>{{ countryRateProviders.key | intlRegion : "ES" }}</h5>
+        <!--LOOP PROVIDERS-->
+        <div class="country">
+            @for (watchProvider of countryRateProviders.value; track watchProvider.id) {
+            <div class="watch-provider">
+                <img
+                    [src]="'https://image.tmdb.org/t/p/original/' + watchProvider.logoPath"
+                    alt="{{ watchProvider.providerName }}"
+                    class="watch-provider-logo"
+                />
+                <p>{{ watchProvider.providerName }}</p>
+            </div>
+            }
+        </div>
+        }@empty {
+        <p>No existen opciones para esta tarifa.</p>
         }
     </div>
-    } @empty {
-    <p>No existen opciones para esta tarifa.</p>
-    }
 </div>
-<div class="rate">
-    <h4>Tarifa plana</h4>
-    @for (flatrateProviders of watchProviders()?.flatrate | keyvalue; track flatrateProviders.key) {
-    <h5>{{ flatrateProviders.key | intlRegion : "ES" }}</h5>
-    <div class="country">
-        @for (watchProvider of flatrateProviders.value; track watchProvider.id) {
-        <div class="watch-provider">
-            <img
-                [src]="'https://image.tmdb.org/t/p/original/' + watchProvider.logoPath"
-                alt="{{ watchProvider.providerName }}"
-                class="watch-provider-logo"
-            />
-            <p>{{ watchProvider.providerName }}</p>
-        </div>
-        }
-    </div>
-    } @empty {
-    <p>No existen opciones para esta tarifa.</p>
-    }
-</div>
-<div class="rate">
-    <h4>Con anuncios</h4>
-    @for (adsProviders of watchProviders()?.ads | keyvalue; track adsProviders.key) {
-    <h5>{{ adsProviders.key | intlRegion : "ES" }}</h5>
-    <div class="country">
-        @for (watchProvider of adsProviders.value; track watchProvider.id) {
-        <div class="watch-provider">
-            <img
-                [src]="'https://image.tmdb.org/t/p/original/' + watchProvider.logoPath"
-                alt="{{ watchProvider.providerName }}"
-                class="watch-provider-logo"
-            />
-            <p>{{ watchProvider.providerName }}</p>
-        </div>
-        }
-    </div>
-    } @empty {
-    <p>No existen opciones para esta tarifa.</p>
-    }
-</div>
-<div class="rate">
-    <h4>Para alquilar</h4>
-    @for (rentProviders of watchProviders()?.rent | keyvalue; track rentProviders.key) {
-    <h5>{{ rentProviders.key | intlRegion : "ES" }}</h5>
-    <div class="country">
-        @for (watchProvider of rentProviders.value; track watchProvider.id) {
-        <div class="watch-provider">
-            <img
-                [src]="'https://image.tmdb.org/t/p/original/' + watchProvider.logoPath"
-                alt="{{ watchProvider.providerName }}"
-                class="watch-provider-logo"
-            />
-            <p>{{ watchProvider.providerName }}</p>
-        </div>
-        }
-    </div>
-    } @empty {
-    <p>No existen opciones para esta tarifa.</p>
-    }
-</div>
+<!--<div class="rate">
 
-<div class="rate">
-    <h4>Para comprar</h4>
-    @for (buyProviders of watchProviders()?.buy | keyvalue; track buyProviders.key) {
-    <h5>{{ buyProviders.key | intlRegion : "ES" }}</h5>
+    <select name="" id="" (change)="changeRate($event)">
+    @for (watchRateType of watchRateTypes | keyvalue; track watchRateType.key){
+        <option value="{{watchRateType.key}}">{{watchRateType.value}}</option>
+    }
+</select>
+    
+    @for (providersByRate of watchProviders()!.rates; track providersByRate.rate) {
+    <h4>{{ watchRateTypes.get(providersByRate.rate) }}</h4>
+   
+    @for (countryRateProviders of providersByRate.countries | keyvalue; track countryRateProviders.key) {
+    <h5>{{ countryRateProviders.key | intlRegion : "ES" }}</h5>
+   
     <div class="country">
-        @for (watchProvider of buyProviders.value; track watchProvider.id) {
+        @for (watchProvider of countryRateProviders.value; track watchProvider.id) {
         <div class="watch-provider">
             <img
                 [src]="'https://image.tmdb.org/t/p/original/' + watchProvider.logoPath"
@@ -95,7 +60,7 @@
         </div>
         }
     </div>
-    } @empty {
+    } }@empty {
     <p>No existen opciones para esta tarifa.</p>
     }
-</div>
+</div>-->

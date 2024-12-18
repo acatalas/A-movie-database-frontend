@@ -43,7 +43,7 @@ export class MovieDetailComponent {
                 .pipe(takeUntilDestroyed(this.#destroyRef))
                 .subscribe({
                     next: (movie) => {
-                        console.log(movie.watchProviders?.flatrate)
+                        console.log(movie.watchProviders)
                         this.setRatingFromLocalStorage(movie);
                         this.movie.set(movie);
                         this.#title.setTitle(this.movie()!.title);

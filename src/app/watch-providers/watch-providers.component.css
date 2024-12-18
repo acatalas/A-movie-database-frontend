@@ -20,3 +20,11 @@
 .country {
     display: flex;
 }
+
+.rate-body {
+    max-height: 17.5em;
+    min-height: 20vh;
+    overflow: auto;
+    margin-top: 1em;
+    padding: 1em;
+}

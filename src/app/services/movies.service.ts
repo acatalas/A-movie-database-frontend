@@ -11,7 +11,7 @@ import { GenresResponse } from '../interfaces/genres-response';
 import { WatchProvider } from '../interfaces/watch-provider';
 import { WatchProvidersResponse } from '../interfaces/watch-providers-response';
 import { AllWatchProvidersResponse } from '../interfaces/all-watch-providers-response';
-import { WatchProvidersByRate } from '../interfaces/watch-providers-by-rate';
+import { WatchProvidersByRate, WatchProvidersRate } from '../interfaces/watch-providers-by-rate';
 import { SingleWatchProviderResponse } from '../interfaces/single-watch-provider-response';
 
 @Injectable({
@@ -209,13 +209,34 @@ export class MoviesService {
         const results = wpResponse.results;
 
         const watchProvidersByRate: WatchProvidersByRate = {
-            rent: new Map<string, WatchProvider[]>(),
-            flatrate: new Map<string, WatchProvider[]>(),
-            buy: new Map<string, WatchProvider[]>(),
-            ads: new Map<string, WatchProvider[]>(),
-            free: new Map<string, WatchProvider[]>(),
+            rates: [],
             countryLinks: new Map<string, string>(),
         };
+
+        const rentWatchProviders: WatchProvidersRate = {
+            rate: 'rent',
+            countries: new Map<string, WatchProvider[]>()
+        }
+
+        const flatrateWatchProviders: WatchProvidersRate = {
+            rate: 'flatrate',
+            countries: new Map<string, WatchProvider[]>()
+        }
+
+        const buyWatchProviders: WatchProvidersRate = {
+            rate: 'buy',
+            countries: new Map<string, WatchProvider[]>()
+        }
+
+        const adsWatchProviders: WatchProvidersRate = {
+            rate: 'ads',
+            countries: new Map<string, WatchProvider[]>()
+        }
+
+        const freeWatchProviders: WatchProvidersRate = {
+            rate: 'free',
+            countries: new Map<string, WatchProvider[]>()
+        }
 
         for (const [countryCode, countryInfo] of Object.entries(results)) {
             //add country link to array
@@ -225,50 +246,68 @@ export class MoviesService {
             );
 
             if (countryInfo.rent !== undefined) {
-                watchProvidersByRate.rent.set(
+                
+                rentWatchProviders.countries.set(
                     countryCode,
                     countryInfo.rent.map(
                         this.#mapWatchProviderResponseToWatchProvider
                     )
                 );
+                
             }
 
             if (countryInfo.flatrate !== undefined) {
-                watchProvidersByRate.flatrate.set(
+                
+                flatrateWatchProviders.countries.set(
                     countryCode,
                     countryInfo.flatrate.map(
                         this.#mapWatchProviderResponseToWatchProvider
                     )
                 );
+              
+
             }
 
             if (countryInfo.buy !== undefined) {
-                watchProvidersByRate.buy.set(
+               
+                buyWatchProviders.countries.set(
                     countryCode,
                     countryInfo.buy.map(
                         this.#mapWatchProviderResponseToWatchProvider
                     )
                 );
+              
+
             }
 
             if (countryInfo.ads !== undefined) {
-                watchProvidersByRate.ads.set(
+                
+                adsWatchProviders.countries.set(
                     countryCode,
                     countryInfo.ads.map(
                         this.#mapWatchProviderResponseToWatchProvider
                     )
                 );
+              
             }
 
             if (countryInfo.free !== undefined) {
-                watchProvidersByRate.free.set(
+                
+                freeWatchProviders.countries.set(
                     countryCode,
                     countryInfo.free.map(
                         this.#mapWatchProviderResponseToWatchProvider
                     )
                 );
+               
+
             }
         }
+        watchProvidersByRate.rates.push(rentWatchProviders);
+        watchProvidersByRate.rates.push(freeWatchProviders);
+        watchProvidersByRate.rates.push(adsWatchProviders);
+        watchProvidersByRate.rates.push(buyWatchProviders);
+        watchProvidersByRate.rates.push(flatrateWatchProviders);
         return watchProvidersByRate;
     }
 
