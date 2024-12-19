@@ -16,6 +16,11 @@
 .navbar-expand .navbar-nav .nav-item {
     font-weight: 600;
     margin-right: .2em;
+    font-size: 1.1em;
+}
+
+.navbar-expand .navbar-nav .nav-item .active {
+    color: var(--accent);
 }
 
 .navbar-expand .navbar-nav-right .nav-item {
