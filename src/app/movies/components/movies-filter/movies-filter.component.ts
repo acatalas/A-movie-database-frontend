@@ -5,6 +5,7 @@ import { FilterParams } from '../../../interfaces/filter-params';
 import { WatchProvider } from '../../../interfaces/watch-provider';
 import { MoviesService } from '../../../services/movies.service';
 import { KeyValuePipe } from '@angular/common';
+import { Genre } from '../../../interfaces/genre';
 
 @Component({
     selector: 'movies-filter',
@@ -16,6 +17,7 @@ export class MoviesFilterComponent {
     filter = output<FilterParams>();
     moviesService = inject(MoviesService);
     watchProviders = signal<WatchProvider[]>([]);
+    movieGenres = signal<Genre[]>([]);
     watchMonetizationTypes = new Map([
         ['flatrate', 'Tarifa plana'],
         ['free', 'Gratis'],
@@ -37,6 +39,7 @@ export class MoviesFilterComponent {
 
     selectedProviders: number[] = []; //with_watch_providers: 1|2|55
     selectedMonetizationTypes: string[] = []; //with_watch_providers: 1|2|55
+    selectedGenres: number[] = []; //with_watch_providers: 1|2|55
     selectedOrder = 'popularity.desc';
 
     constructor() {
@@ -48,13 +51,22 @@ export class MoviesFilterComponent {
                     this.watchProviders.set(watchProviders);
                 },
             });
+        this.moviesService
+            .getMovieGenres()
+            .pipe(takeUntilDestroyed())
+            .subscribe({
+                next: (movieGenres) => {
+                    this.movieGenres.set(movieGenres);
+                },
+            });
     }
 
     applyFilters(): void {
         const filterParams: FilterParams = {
             watchProviders: this.selectedProviders,
             watchMonetizationTypes: this.selectedMonetizationTypes,
-            orderBy: this.selectedOrder
+            selectedGenres: this.selectedGenres,
+            orderBy: this.selectedOrder,
         };
         this.filter.emit(filterParams);
     }
@@ -72,6 +84,14 @@ export class MoviesFilterComponent {
             this.selectedMonetizationTypes.push(monetizationType);
         } else {
             this.selectedMonetizationTypes.splice(this.selectedMonetizationTypes.indexOf(monetizationType), 1);
+        }
+    }
+
+    updateSelectedGenre(event: Event, genre: Genre){
+        if ((event.target! as HTMLInputElement).checked!) {
+            this.selectedGenres.push(genre.id);
+        } else {
+            this.selectedGenres.splice(this.selectedGenres.indexOf(genre.id), 1);
         }
     }
 

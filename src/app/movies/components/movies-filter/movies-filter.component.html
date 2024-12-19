@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-    <div class="accordion" id="watchProvidersAccordion">
+    <div class="accordion mb-4" id="watchProvidersAccordion">
         <div class="accordion-item">
             <h2 class="accordion-header">
                 <button
@@ -73,6 +73,33 @@
                         </div>
                         } @empty {
                         <p>No watch providers were found for your region.</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="accordion mb-4" id="filterAccordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button
+                    class="accordion-button"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseFilter"
+                    aria-expanded="true"
+                    aria-controls="collapseFilter"
+                >
+                    Filtrar
+                </button>
+            </h2>
+            <div id="collapseFilter" class="accordion-collapse collapse show" data-bs-parent="#filterAccordion">
+                <div class="accordion-body" id="order-by-filter w-100">
+                    <label for="order-by" class="form-label">Géneros:</label>
+                    <div id="genre-buttons">
+                        @for(movieGenre of movieGenres(); track movieGenre.id){
+                            <input type="checkbox" class="btn-check" id="genre-{{movieGenre.id}}" autocomplete="off" (change)="updateSelectedGenre($event, movieGenre)">
+                            <label class="btn rounded-pill" for="genre-{{movieGenre.id}}">{{movieGenre.name}}</label>
                         }
                     </div>
                 </div>

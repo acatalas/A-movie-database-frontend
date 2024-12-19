@@ -81,6 +81,9 @@ export class MoviesService {
         if (filterOptions.watchProviders.length > 0) {
             filterParams = filterParams.set('with_watch_providers', filterOptions.watchProviders.join('|'));
         }
+        if (filterOptions.selectedGenres.length > 0){
+            filterParams = filterParams.set('with_genres', filterOptions.selectedGenres.join(','));
+        }
         return filterParams;
     }
 

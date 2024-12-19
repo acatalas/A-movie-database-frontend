@@ -63,3 +63,23 @@
         z-index: -1;
     }
 }
+
+#genre-buttons {
+    label {
+        
+        padding: 0.2em 1em;
+        margin-right: 0.5em;
+        margin-bottom: 0.5em;
+        border-color: var(--bs-btn-active-border-color);
+
+        &:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+    }
+    :checked + label {
+        background-color: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);;
+    }
+}
