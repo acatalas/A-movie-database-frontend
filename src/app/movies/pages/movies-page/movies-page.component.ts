@@ -28,6 +28,8 @@ export class MoviesPageComponent {
 
     destroyRef = inject(DestroyRef);
 
+    
+
     filteredMovies = new Subscription();
     constructor() {
         this.filteredMovies = toObservable<string>(this.delayedSearchTerm).subscribe({

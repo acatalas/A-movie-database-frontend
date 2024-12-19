@@ -44,7 +44,7 @@ export class MoviesService {
     http = inject(HttpClient);
 
     //get movies filtered by the specified options. Defaults to no filters.
-    getMovies(filterOptions: FilterParams | null = null): Observable<MoviesPagination> {
+    getMovies(page = 1, filterOptions: FilterParams | null = null): Observable<MoviesPagination> {
         const headers = this.#getAuthHeaders();
         let filterParams = new HttpParams();
         if (filterOptions !== null) {
@@ -55,6 +55,7 @@ export class MoviesService {
 
         //set default filterOptions
         filterParams = filterParams.set('language', this.language).set('region', this.region);
+        filterParams = filterParams.set('page', page);
 
         return this.http
             .get<MoviesPaginationResponse>(this.moviesUrl, {
@@ -73,6 +74,19 @@ export class MoviesService {
             );
     }
 
+    getRandomMovieId(): Observable<number> {
+        const maxPages = 500; //API imposes a max of 500 for some reason
+        const randomPage = Math.floor(Math.random() * (maxPages - 1 + 1)) + 1;
+        return this.getMovies(randomPage)
+            .pipe(
+                map((moviePagination) => {
+                    const totalMovies = moviePagination.results.length;
+                    const randomMovie = Math.floor(Math.random() * (totalMovies - 1 + 1));
+                    return moviePagination.results[randomMovie].id!;
+                })
+            )
+    }
+
     getFilterParams(filterOptions: FilterParams): HttpParams {
         let filterParams = new HttpParams().set('sort_by', filterOptions.orderBy);
         if (filterOptions.watchMonetizationTypes.length > 0) {
@@ -81,7 +95,7 @@ export class MoviesService {
         if (filterOptions.watchProviders.length > 0) {
             filterParams = filterParams.set('with_watch_providers', filterOptions.watchProviders.join('|'));
         }
-        if (filterOptions.selectedGenres.length > 0){
+        if (filterOptions.selectedGenres.length > 0) {
             filterParams = filterParams.set('with_genres', filterOptions.selectedGenres.join(','));
         }
         return filterParams;

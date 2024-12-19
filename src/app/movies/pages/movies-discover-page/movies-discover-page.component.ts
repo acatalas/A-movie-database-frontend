@@ -43,9 +43,9 @@ export class MoviesDiscoverPageComponent {
             });
     }
 
-    filterMovies(filterParams: FilterParams): void {
+    filterMovies(filterOptions: FilterParams): void {
         this.#moviesService
-            .getMovies(filterParams)
+            .getMovies(1, filterOptions)
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
                 next: (movies: MoviesPagination) => {

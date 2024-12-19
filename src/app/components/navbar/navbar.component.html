@@ -18,6 +18,10 @@
             [routerLinkActive]="['active']"
             class="nav-link">Listas</a>
         </li>
+        <li class="nav-item">
+          <a [routerLink]="['/movies/' + randomMovieId()]"
+          class="nav-link">Aleatorio</a>
+      </li>
       </ul>
       </div>
     </div>
