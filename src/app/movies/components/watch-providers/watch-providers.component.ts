@@ -18,10 +18,10 @@ export class WatchProvidersComponent {
 
     watchRateTypes = new Map([
         ['free', 'Gratis'],
-        ['flatrate', 'Tarifa plana'],
-        ['ads', 'Con anuncios'],
-        ['rent', 'Alquilar'],
-        ['buy', 'Comprar'],
+        ['flatrate', 'Retransmisión'],
+        ['ads', 'Anuncios'],
+        ['rent', 'Alquiler'],
+        ['buy', 'Compra'],
     ]);
 
     filteredRates = computed(() => {
