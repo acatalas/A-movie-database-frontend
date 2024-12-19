@@ -10,6 +10,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LocalStorageService } from '../../../services/local-storage.service';
 import { StarRatingComponent } from '../../components/star-rating/star-rating.component';
 import { WatchProvidersComponent } from '../../components/watch-providers/watch-providers.component';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'movie-detail-page',
@@ -24,6 +25,7 @@ export class MovieDetailPageComponent {
     #localStorageService = inject(LocalStorageService);
     #destroyRef = inject(DestroyRef);
     #title = inject(Title);
+    #router = inject(Router);
 
     movie = signal<Movie | null>(null);
     genreTitles: string[] | undefined = undefined;
@@ -35,13 +37,13 @@ export class MovieDetailPageComponent {
                 .pipe(takeUntilDestroyed(this.#destroyRef))
                 .subscribe({
                     next: (movie) => {
-                        console.log(movie);
                         this.setRatingFromLocalStorage(movie);
                         this.movie.set(movie);
                         this.#title.setTitle(this.movie()!.title + ' | aMDb' );
                         this.genreTitles = this.movie()?.genres!.flatMap((genre) => genre.name);
                     },
                     error: (error: HttpErrorResponse) => {
+                        this.#router.navigate(['/404'], { skipLocationChange: true });
                         console.error(`Error obteniendo productos: `, error);
                     },
                 });

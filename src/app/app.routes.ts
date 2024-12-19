@@ -4,6 +4,7 @@ import { ListsPageComponent } from './lists/pages/lists-page/lists-page.componen
 import { MoviesDiscoverPageComponent } from './movies/pages/movies-discover-page/movies-discover-page.component';
 import { MoviesPageComponent } from './movies/pages/movies-page/movies-page.component';
 import { MovieDetailPageComponent } from './movies/pages/movie-detail-page/movie-detail-page.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 
 export const routes: Routes = [
@@ -23,5 +24,6 @@ export const routes: Routes = [
         ],
     },
     { path: '', redirectTo: '/movies', pathMatch: 'full' },
+    { path: '404', component: PageNotFoundComponent,  title: 'Not found | aMDb'},
     { path: '**', redirectTo: '/movies' },
 ];

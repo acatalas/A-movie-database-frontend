@@ -1,4 +1,30 @@
 <form (ngSubmit)="applyFilters()">
+    <div class="accordion mb-4" id="orderByAccordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button
+                    class="accordion-button"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseOrder"
+                    aria-expanded="true"
+                    aria-controls="collapseOrder"
+                >
+                    Ordenar
+                </button>
+            </h2>
+            <div id="collapseOrder" class="accordion-collapse collapse show" data-bs-parent="#orderByAccordion">
+                <div class="accordion-body" id="order-by-filter w-100">
+                    <label for="order-by" class="form-label">Ordenar resultados por:</label>
+                    <select name="order-by" id="order-by" class="form-select" [(ngModel)]="selectedOrder">
+                        @for(orderByOption of orderByOptions | keyvalue: originalOrder; track orderByOption.key){
+                        <option value="{{ orderByOption.key }}">{{ orderByOption.value }}</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="accordion" id="watchProvidersAccordion">
         <div class="accordion-item">
             <h2 class="accordion-header">
@@ -15,7 +41,7 @@
             </h2>
             <div id="collapseProviders" class="accordion-collapse collapse show" data-bs-parent="#watchProvidersAccordion">
                 <div class="accordion-body" id="watch-providers w-100">
-                    <!--<div id="watch-type">
+                    <!--<div id="watch-type"> NOT WORKING IN API
                         @for(monetizationType of watchMonetizationTypes | keyvalue; track monetizationType.key) {
                         <div class="form-check mb-3">
                             <input

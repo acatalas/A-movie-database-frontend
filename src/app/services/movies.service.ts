@@ -13,6 +13,7 @@ import { MoviesPaginationResponse } from '../interfaces/responses/movies-paginat
 import { SingleMovieResponse } from '../interfaces/responses/single-movie-response';
 import { WatchProvidersResponse } from '../interfaces/responses/watch-providers-response';
 import { WatchProvider } from '../interfaces/watch-provider';
+import { FilterParams } from '../interfaces/filter-params';
 
 @Injectable({
     providedIn: 'root',
@@ -43,16 +44,22 @@ export class MoviesService {
     http = inject(HttpClient);
 
     //get movies filtered by the specified options. Defaults to no filters.
-    getMovies(filterOptions: HttpParams = new HttpParams()): Observable<MoviesPagination> {
+    getMovies(filterOptions: FilterParams | null = null): Observable<MoviesPagination> {
         const headers = this.#getAuthHeaders();
+        let filterParams = new HttpParams();
+        if (filterOptions !== null) {
+            filterParams = this.getFilterParams(filterOptions);
+        }
+
+        filterParams = filterParams.set('watch_region', 'ES'); //with_watch_providers: 1|2|55
 
         //set default filterOptions
-        filterOptions = filterOptions.set('language', this.language).set('region', this.region);
+        filterParams = filterParams.set('language', this.language).set('region', this.region);
 
         return this.http
             .get<MoviesPaginationResponse>(this.moviesUrl, {
                 headers,
-                params: filterOptions,
+                params: filterParams,
             })
             .pipe(
                 map<MoviesPaginationResponse, MoviesPagination>((response) => {
@@ -64,6 +71,17 @@ export class MoviesService {
                     };
                 })
             );
+    }
+
+    getFilterParams(filterOptions: FilterParams): HttpParams {
+        let filterParams = new HttpParams().set('sort_by', filterOptions.orderBy);
+        if (filterOptions.watchMonetizationTypes.length > 0) {
+            filterParams = filterParams.set('with_watch_monetization_types', filterOptions.watchMonetizationTypes.join('|'));
+        }
+        if (filterOptions.watchProviders.length > 0) {
+            filterParams = filterParams.set('with_watch_providers', filterOptions.watchProviders.join('|'));
+        }
+        return filterParams;
     }
 
     getMoviesByTitle(title: string): Observable<MoviesPagination> {
@@ -90,7 +108,7 @@ export class MoviesService {
     getMovie(id: number): Observable<Movie> {
         const headers = this.#getAuthHeaders();
 
-        const params = new HttpParams().set('append_to_response', 'watch/providers');
+        const params = new HttpParams().set('append_to_response', 'watch/providers').set('language', this.language);
         return this.http
             .get<SingleMovieResponse>(this.movieDetailUrl + '/' + id, {
                 headers,

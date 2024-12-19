@@ -3,7 +3,7 @@ import { Movie } from '../../../interfaces/movie';
 import { MoviesService } from '../../../services/movies.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MoviesPagination } from '../../../interfaces/movies-pagination';
-import { HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { FilterParams } from '../../../interfaces/filter-params';
 import { MoviesFilterComponent } from '../../components/movies-filter/movies-filter.component';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
@@ -33,6 +33,7 @@ export class MoviesDiscoverPageComponent {
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
                 next: (movies: MoviesPagination) => {
+                    console.log(movies.results)
                     this.addRatingsFromLocalStorage(movies.results);
                     this.movies.set(movies.results);
                 },
@@ -43,9 +44,8 @@ export class MoviesDiscoverPageComponent {
     }
 
     filterMovies(filterParams: FilterParams): void {
-        const filterParamOptions = new HttpParams().set('with_watch_providers', filterParams.watchProviders.join('|')).set('with_watch_monetization_types', filterParams.watchMonetizationTypes.join('|')).set('watch_region', 'ES'); //with_watch_providers: 1|2|55
         this.#moviesService
-            .getMovies(filterParamOptions)
+            .getMovies(filterParams)
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
                 next: (movies: MoviesPagination) => {
