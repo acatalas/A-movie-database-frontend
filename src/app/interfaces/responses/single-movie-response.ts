@@ -1,5 +1,5 @@
 import { Genre } from "../genre";
-import { AllWatchProvidersResponse } from "./all-watch-providers-response";
+import { AllWatchProvidersResponse } from "./watch-providers-response";
 
 export interface SingleMovieResponse {
     adult: boolean;
