@@ -19,22 +19,22 @@ export class MoviesFilterComponent {
     watchProviders = signal<WatchProvider[]>([]);
     movieGenres = signal<Genre[]>([]);
     watchMonetizationTypes = new Map([
-        ['flatrate', 'Tarifa plana'],
-        ['free', 'Gratis'],
-        ['ads', 'Con anuncios'],
-        ['rent', 'Alquilar'],
-        ['buy', 'Comprar'],
+        ['flatrate', 'Flat rate'],
+        ['free', 'Free'],
+        ['ads', 'Ads'],
+        ['rent', 'Rent'],
+        ['buy', 'Buy'],
     ]);
 
     orderByOptions = new Map([
-        ['popularity.desc', 'Más populares'],
-        ['popularity.asc', 'Menos populares'],
-        ['vote_average.desc', 'Más valoración'],
-        ['vote_average.asc', 'Menos valoración'],
-        ['primary_release_date.desc', 'Más recientes'],
-        ['primary_release_date.asc', 'Más antiguos'],
-        ['title.desc', 'Título (A-Z)'],
-        ['title.asc', 'Título (Z-A)'],
+        ['popularity.desc', 'Most popular'],
+        ['popularity.asc', 'Least popular'],
+        ['vote_average.desc', 'Highest vote average'],
+        ['vote_average.asc', 'Lowest vote average'],
+        ['primary_release_date.desc', 'Most recent'],
+        ['primary_release_date.asc', 'Older'],
+        ['title.desc', 'Ttile (A-Z)'],
+        ['title.asc', 'Title (Z-A)'],
     ]);
 
     selectedProviders: number[] = []; //with_watch_providers: 1|2|55

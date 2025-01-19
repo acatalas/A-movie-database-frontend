@@ -18,7 +18,7 @@
         <!--List countries with specified rate options-->
         @if(filteredCountries().size >= 1){
         <select name="countries" id="countries" class="form-select" [(ngModel)]="selectedCountry">
-            <option value="all">Todos</option>
+            <option value="all">All</option>
             @for(countryRateProviders of filteredRates()!.countries | keyvalue; track countryRateProviders.key){
             <option value="{{ countryRateProviders.key }}">
                 {{ countryRateProviders.key | intlRegion : "ES" }} {{ " (" + countryRateProviders.value.length + ")" }}
@@ -49,7 +49,7 @@
             }
         </div>
         }@empty {
-        <p>No existen opciones para esta tarifa.</p>
+        <p>No options available for specified rate.</p>
         }
     </div>
 </div>

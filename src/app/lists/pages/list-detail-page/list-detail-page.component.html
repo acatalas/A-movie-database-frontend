@@ -6,7 +6,7 @@
         @for (movie of list()?.movies; track movie.id) {
         <movie-card [movie]="movie" (unlist)="removeFromList($event, movie.id!)" class="col"></movie-card>
         } @empty {
-        <p>No tienes películas en esta lista</p>
+        <p>There are no movies in this list</p>
         }
     </div>
 </div>

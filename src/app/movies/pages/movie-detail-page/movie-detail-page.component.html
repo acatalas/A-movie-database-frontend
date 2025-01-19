@@ -31,7 +31,7 @@
                 <span class="ms-3 rating-score">{{ movie()!.voteAverage | number : "1.0-1" }}</span>
             </div>
             <div class="section">
-                <h4 class="section-title">Vista general</h4>
+                <h4 class="section-title">General view</h4>
                 <p>{{ movie()!.overview }}</p>
             </div>
             <watch-providers [watchProviders]="movie()!.watchProviders"></watch-providers>

@@ -17,11 +17,11 @@ export class WatchProvidersComponent {
     selectedCountry = signal<string>('all');
 
     watchRateTypes = new Map([
-        ['free', 'Gratis'],
-        ['flatrate', 'Retransmisión'],
-        ['ads', 'Anuncios'],
-        ['rent', 'Alquiler'],
-        ['buy', 'Compra'],
+        ['free', 'Free'],
+        ['flatrate', 'Flat rate'],
+        ['ads', 'Ads'],
+        ['rent', 'Rent'],
+        ['buy', 'Buy'],
     ]);
 
     filteredRates = computed(() => {

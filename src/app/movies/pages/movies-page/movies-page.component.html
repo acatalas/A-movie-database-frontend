@@ -1,7 +1,7 @@
 <div class="container-lg">
-    <h2 class="mt-4 page-header">Películas</h2>
+    <h2 class="mt-4 page-header">Movies</h2>
     <form class="mt-4">
-        <input class="form-control me-2" type="text" name="search" placeholder="Buscar" aria-label="Search" [(ngModel)]="search" />
+        <input class="form-control me-2" type="text" name="search" placeholder="Search" aria-label="Search" [(ngModel)]="search" />
     </form>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 mt-1 g-4">
         @for (movie of movies(); track movie.id) {

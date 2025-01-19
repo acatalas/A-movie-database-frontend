@@ -58,7 +58,7 @@ export class MoviesPageComponent {
                         this.movies.set(this.defaultMovies);
                     },
                     error: (error: HttpErrorResponse) => {
-                        console.error(`Error obteniendo productos: `, error);
+                        console.error(`Error obtaining movies: `, error);
                     },
                 });
         } else {
@@ -85,7 +85,7 @@ export class MoviesPageComponent {
                     this.movies.set(movies.results);
                 },
                 error: (error: HttpErrorResponse) => {
-                    console.error(`Error obteniendo productos: `, error);
+                    console.error(`Error obtaining products: `, error);
                 },
             });
     }

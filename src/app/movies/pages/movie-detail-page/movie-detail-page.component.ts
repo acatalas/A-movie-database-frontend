@@ -44,7 +44,7 @@ export class MovieDetailPageComponent {
                     },
                     error: (error: HttpErrorResponse) => {
                         this.#router.navigate(['/404'], { skipLocationChange: true });
-                        console.error(`Error obteniendo productos: `, error);
+                        console.error(`Error obtaining movies: `, error);
                     },
                 });
         });

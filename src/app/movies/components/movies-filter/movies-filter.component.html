@@ -15,7 +15,7 @@
             </h2>
             <div id="collapseOrder" class="accordion-collapse collapse show" data-bs-parent="#orderByAccordion">
                 <div class="accordion-body" id="order-by-filter w-100">
-                    <label for="order-by" class="form-label">Ordenar resultados por:</label>
+                    <label for="order-by" class="form-label">Order by:</label>
                     <select name="order-by" id="order-by" class="form-select" [(ngModel)]="selectedOrder">
                         @for(orderByOption of orderByOptions | keyvalue: originalOrder; track orderByOption.key){
                         <option value="{{ orderByOption.key }}">{{ orderByOption.value }}</option>
@@ -72,7 +72,7 @@
                             /></label>
                         </div>
                         } @empty {
-                        <p>No watch providers were found for your region.</p>
+                        <p>No watch providers were found for specified region.</p>
                         }
                     </div>
                 </div>
@@ -90,12 +90,12 @@
                     aria-expanded="true"
                     aria-controls="collapseFilter"
                 >
-                    Filtrar
+                    Filter
                 </button>
             </h2>
             <div id="collapseFilter" class="accordion-collapse collapse show" data-bs-parent="#filterAccordion">
                 <div class="accordion-body" id="order-by-filter w-100">
-                    <label for="order-by" class="form-label">Géneros:</label>
+                    <label for="order-by" class="form-label">Genres:</label>
                     <div id="genre-buttons">
                         @for(movieGenre of movieGenres(); track movieGenre.id){
                             <input type="checkbox" class="btn-check" id="genre-{{movieGenre.id}}" autocomplete="off" (change)="updateSelectedGenre($event, movieGenre)">
@@ -107,6 +107,6 @@
         </div>
     </div>
     <div class="col-sm-10 mt-4">
-        <button type="submit" class="btn btn-primary">Enviar</button>
+        <button type="submit" class="btn btn-primary">Send</button>
     </div>
 </form>

@@ -38,7 +38,7 @@ export class MoviesDiscoverPageComponent {
                     this.movies.set(movies.results);
                 },
                 error: (error: HttpErrorResponse) => {
-                    console.error(`Error obteniendo productos: `, error);
+                    console.error(`Error obtaining movies: `, error);
                 },
             });
     }
@@ -53,7 +53,7 @@ export class MoviesDiscoverPageComponent {
                     this.movies.set(movies.results);
                 },
                 error: (error: HttpErrorResponse) => {
-                    console.error(`Error obteniendo productos: `, error);
+                    console.error(`Error obtaining movies: `, error);
                 },
             });
     }
