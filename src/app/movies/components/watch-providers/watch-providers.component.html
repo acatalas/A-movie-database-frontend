@@ -21,7 +21,7 @@
             <option value="all">All</option>
             @for(countryRateProviders of filteredRates()!.countries | keyvalue; track countryRateProviders.key){
             <option value="{{ countryRateProviders.key }}">
-                {{ countryRateProviders.key | intlRegion : "ES" }} {{ " (" + countryRateProviders.value.length + ")" }}
+                {{ countryRateProviders.key | intlRegion : "EN" }} {{ " (" + countryRateProviders.value.length + ")" }}
             </option>
             }
         </select>
@@ -30,7 +30,7 @@
         <!--LOOP COUNTRIES - add selected -->
         @for (countryRateProviders of filteredCountries() | keyvalue; track countryRateProviders.key) {
         <h5>
-            {{ countryRateProviders.key | intlRegion : "ES" }}
+            {{ countryRateProviders.key | intlRegion : "EN" }}
             <a href="{{ watchProviders()?.countryLinks?.get(countryRateProviders.key) }}" target="_blank"
                 ><i class="bi bi-box-arrow-up-right"></i
             ></a>

@@ -36,8 +36,8 @@ export class MoviesService {
     watchProvidersUrl = this.baseUrl + '/watch/providers/movie';
 
     //region and language defaults
-    language = 'es-ES';
-    region = 'es-ES';
+    language = 'en-UK';
+    region = 'en-UK';
     watchProviderRegion = 'ES';
 
     //inject http service
@@ -51,7 +51,7 @@ export class MoviesService {
             filterParams = this.getFilterParams(filterOptions);
         }
 
-        filterParams = filterParams.set('watch_region', 'ES'); //with_watch_providers: 1|2|55
+        filterParams = filterParams.set('watch_region', this.watchProviderRegion); //with_watch_providers: 1|2|55
 
         //set default filterOptions
         filterParams = filterParams.set('language', this.language).set('region', this.region);
@@ -77,14 +77,13 @@ export class MoviesService {
     getRandomMovieId(): Observable<number> {
         const maxPages = 500; //API imposes a max of 500 for some reason
         const randomPage = Math.floor(Math.random() * (maxPages - 1 + 1)) + 1;
-        return this.getMovies(randomPage)
-            .pipe(
-                map((moviePagination) => {
-                    const totalMovies = moviePagination.results.length;
-                    const randomMovie = Math.floor(Math.random() * (totalMovies - 1 + 1));
-                    return moviePagination.results[randomMovie].id!;
-                })
-            )
+        return this.getMovies(randomPage).pipe(
+            map((moviePagination) => {
+                const totalMovies = moviePagination.results.length;
+                const randomMovie = Math.floor(Math.random() * (totalMovies - 1 + 1));
+                return moviePagination.results[randomMovie].id!;
+            })
+        );
     }
 
     getFilterParams(filterOptions: FilterParams): HttpParams {

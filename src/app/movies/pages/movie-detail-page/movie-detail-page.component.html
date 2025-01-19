@@ -18,7 +18,7 @@
                 <span class="year">({{ movie()!.releaseDate | date : "y" }})</span>
             </h3>
             <div class="mb-4">
-                <span>{{ movie()!.releaseDate | intlDate : "short" : "es-ES" }}</span>
+                <span>{{ movie()!.releaseDate | intlDate : "short" : "en-UK" }}</span>
                 @if(this.genreTitles !== undefined && this.genreTitles.length >= 1){
                 <span> | </span>
                 <span>{{ this.genreTitles.join(", ") }}</span>

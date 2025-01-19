@@ -10,12 +10,12 @@
                     aria-expanded="true"
                     aria-controls="collapseOrder"
                 >
-                    Ordenar
+                    Sort
                 </button>
             </h2>
             <div id="collapseOrder" class="accordion-collapse collapse show" data-bs-parent="#orderByAccordion">
                 <div class="accordion-body" id="order-by-filter w-100">
-                    <label for="order-by" class="form-label">Order by:</label>
+                    <label for="order-by" class="form-label">Sort results by:</label>
                     <select name="order-by" id="order-by" class="form-select" [(ngModel)]="selectedOrder">
                         @for(orderByOption of orderByOptions | keyvalue: originalOrder; track orderByOption.key){
                         <option value="{{ orderByOption.key }}">{{ orderByOption.value }}</option>
@@ -36,7 +36,7 @@
                     aria-expanded="true"
                     aria-controls="collapseProviders"
                 >
-                    Dónde se puede ver <span class="badge text-bg-secondary ms-2">{{ watchProviders().length }}</span>
+                    Where to Watch <span class="badge text-bg-secondary ms-2">{{ watchProviders().length }}</span>
                 </button>
             </h2>
             <div id="collapseProviders" class="accordion-collapse collapse show" data-bs-parent="#watchProvidersAccordion">

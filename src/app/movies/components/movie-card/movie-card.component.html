@@ -33,7 +33,7 @@
             <a [routerLink]="['/movies', movie().id]">{{ movie().title }}</a>
         </p>
         @if(movie().releaseDate !== undefined){
-            <p class="card-subtitle">{{ movie().releaseDate | intlDate : "medium" : "es-ES" }}</p>
+            <p class="card-subtitle">{{ movie().releaseDate | intlDate : "medium" : "en-UK" }}</p>
         }
     </div>
     <div class="card-footer d-flex">
