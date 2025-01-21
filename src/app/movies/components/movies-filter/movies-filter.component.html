@@ -36,7 +36,7 @@
                     aria-expanded="true"
                     aria-controls="collapseProviders"
                 >
-                    Where to Watch <span class="badge text-bg-secondary ms-2">{{ watchProviders().length }}</span>
+                    Where to Watch <span class="badge text-bg-secondary ms-2">{{ watchProviders.value()?.length || 0 }}</span>
                 </button>
             </h2>
             <div id="collapseProviders" class="accordion-collapse collapse show" data-bs-parent="#watchProvidersAccordion">
@@ -55,8 +55,15 @@
                         </div>
                         }
                     </div>-->
+                    <div id="watch-provider-region" class="mb-3">
+                        <select name="watch-provider-region" id="watch-provider-region" class="form-select" [(ngModel)]="selectedRegion">
+                            @for(region of regions(); track region){
+                            <option value="{{ region }}">{{ region | intlRegion : "EN"  }}</option>
+                            }
+                        </select>
+                    </div>
                     <div id="watch-providers">
-                        @for (watchProvider of watchProviders(); track watchProvider.id; let i = $index) {
+                        @for (watchProvider of watchProviders.value(); track watchProvider.id; let i = $index) {
                         <div class="watch-provider">
                             <input
                                 type="checkbox"
@@ -98,8 +105,14 @@
                     <label for="order-by" class="form-label">Genres:</label>
                     <div id="genre-buttons">
                         @for(movieGenre of movieGenres(); track movieGenre.id){
-                            <input type="checkbox" class="btn-check" id="genre-{{movieGenre.id}}" autocomplete="off" (change)="updateSelectedGenre($event, movieGenre)">
-                            <label class="btn rounded-pill" for="genre-{{movieGenre.id}}">{{movieGenre.name}}</label>
+                        <input
+                            type="checkbox"
+                            class="btn-check"
+                            id="genre-{{ movieGenre.id }}"
+                            autocomplete="off"
+                            (change)="updateSelectedGenre($event, movieGenre)"
+                        />
+                        <label class="btn rounded-pill" for="genre-{{ movieGenre.id }}">{{ movieGenre.name }}</label>
                         }
                     </div>
                 </div>

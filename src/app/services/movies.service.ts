@@ -14,6 +14,7 @@ import { WatchProvider } from '../interfaces/watch-provider';
 import { FilterParams } from '../interfaces/filter-params';
 import { SingleWatchProviderResponse, WatchProvidersResponse } from '../interfaces/responses/media-watch-providers-response';
 import { AllWatchProvidersResponse } from '../interfaces/responses/watch-providers-response';
+import { RegionsResponse } from '../interfaces/responses/regions-response';
 
 @Injectable({
     providedIn: 'root',
@@ -34,6 +35,9 @@ export class MoviesService {
 
     //watch providers
     watchProvidersUrl = this.baseUrl + '/watch/providers/movie';
+
+    //available regions with watch provider info
+    regionsUrl = this.baseUrl + '/watch/providers/regions';
 
     //region and language defaults
     language = 'en-UK';
@@ -154,9 +158,27 @@ export class MoviesService {
             );
     }
 
-    getWatchProviders(): Observable<WatchProvider[]> {
+    //Returns a list of all regions with watch provider info as a list of iso_3166_1 codes
+    getRegions(): Observable<string[]> {
         const headers = this.#getAuthHeaders();
-        const params = new HttpParams().set('language', this.language).set('watch_region', this.watchProviderRegion);
+        const params = new HttpParams().set('language', this.language);
+        return this.http
+            .get<RegionsResponse>(this.regionsUrl, {
+                headers,
+                params,
+            })
+            .pipe(
+                map<RegionsResponse, string[]>((regionsResponse) => {
+                    return regionsResponse.results.map((regionRespose) => {
+                        return regionRespose.iso_3166_1;
+                    });
+                })
+            );
+    }
+
+    getWatchProviders(region = this.watchProviderRegion): Observable<WatchProvider[]> {
+        const headers = this.#getAuthHeaders();
+        const params = new HttpParams().set('language', this.language).set('watch_region', region);
         return this.http
             .get<WatchProvidersResponse>(this.watchProvidersUrl, {
                 headers,

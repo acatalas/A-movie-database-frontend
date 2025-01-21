@@ -1,23 +1,37 @@
 import { Component, inject, output, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { FilterParams } from '../../../interfaces/filter-params';
 import { WatchProvider } from '../../../interfaces/watch-provider';
 import { MoviesService } from '../../../services/movies.service';
 import { KeyValuePipe } from '@angular/common';
 import { Genre } from '../../../interfaces/genre';
+import { IntlRegionPipe } from "../../../pipes/intl-region.pipe";
 
 @Component({
     selector: 'movies-filter',
-    imports: [FormsModule, KeyValuePipe],
+    imports: [FormsModule, KeyValuePipe, IntlRegionPipe],
     templateUrl: './movies-filter.component.html',
     styleUrl: './movies-filter.component.css',
 })
 export class MoviesFilterComponent {
-    filter = output<FilterParams>();
     moviesService = inject(MoviesService);
-    watchProviders = signal<WatchProvider[]>([]);
+
+    filter = output<FilterParams>();
+    
+    //made a signal because it updates the watchProviders resource
+    selectedRegion = signal('GB');
+    
+    //stores all watch providers of the selected region
+    watchProviders = rxResource({
+        request: () => this.selectedRegion(),
+        loader: (params) => {
+            return this.moviesService.getWatchProviders(params.request);
+        }
+    })
     movieGenres = signal<Genre[]>([]);
+    regions = signal<string[]>([]);
+    
     watchMonetizationTypes = new Map([
         ['flatrate', 'Flat rate'],
         ['free', 'Free'],
@@ -37,20 +51,24 @@ export class MoviesFilterComponent {
         ['title.asc', 'Title (Z-A)'],
     ]);
 
-    selectedProviders: number[] = []; //with_watch_providers: 1|2|55
-    selectedMonetizationTypes: string[] = []; //with_watch_providers: 1|2|55
-    selectedGenres: number[] = []; //with_watch_providers: 1|2|55
+    selectedProviders: number[] = [];
+    selectedMonetizationTypes: string[] = [];
+    selectedGenres: number[] = [];
     selectedOrder = 'popularity.desc';
 
     constructor() {
+
+        //get all regions with watch provider info
         this.moviesService
-            .getWatchProviders()
+            .getRegions()
             .pipe(takeUntilDestroyed())
             .subscribe({
-                next: (watchProviders) => {
-                    this.watchProviders.set(watchProviders);
+                next: (regions) => {
+                    this.regions.set(regions);
                 },
             });
+        
+        //get all genres
         this.moviesService
             .getMovieGenres()
             .pipe(takeUntilDestroyed())
@@ -87,7 +105,7 @@ export class MoviesFilterComponent {
         }
     }
 
-    updateSelectedGenre(event: Event, genre: Genre){
+    updateSelectedGenre(event: Event, genre: Genre) {
         if ((event.target! as HTMLInputElement).checked!) {
             this.selectedGenres.push(genre.id);
         } else {
