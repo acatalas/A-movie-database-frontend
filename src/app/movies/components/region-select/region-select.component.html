@@ -1,0 +1,5 @@
+<select name="watch-provider-region" id="watch-provider-region" class="form-select" [(ngModel)]="region">
+    @for(region of regionCodesMap() | keyvalue: originalOrder; track region.key){
+    <option value="{{ region.key }}">{{ region.value }}</option>
+    }
+</select>

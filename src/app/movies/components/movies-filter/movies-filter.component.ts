@@ -6,11 +6,11 @@ import { WatchProvider } from '../../../interfaces/watch-provider';
 import { MoviesService } from '../../../services/movies.service';
 import { KeyValuePipe } from '@angular/common';
 import { Genre } from '../../../interfaces/genre';
-import { IntlRegionPipe } from "../../../pipes/intl-region.pipe";
+import { RegionSelectComponent } from '../region-select/region-select.component';
 
 @Component({
     selector: 'movies-filter',
-    imports: [FormsModule, KeyValuePipe, IntlRegionPipe],
+    imports: [FormsModule, KeyValuePipe, RegionSelectComponent],
     templateUrl: './movies-filter.component.html',
     styleUrl: './movies-filter.component.css',
 })
@@ -18,20 +18,20 @@ export class MoviesFilterComponent {
     moviesService = inject(MoviesService);
 
     filter = output<FilterParams>();
-    
+
     //made a signal because it updates the watchProviders resource
     selectedRegion = signal('GB');
-    
+
     //stores all watch providers of the selected region
     watchProviders = rxResource({
         request: () => this.selectedRegion(),
         loader: (params) => {
             return this.moviesService.getWatchProviders(params.request);
-        }
-    })
+        },
+    });
     movieGenres = signal<Genre[]>([]);
     regions = signal<string[]>([]);
-    
+
     watchMonetizationTypes = new Map([
         ['flatrate', 'Flat rate'],
         ['free', 'Free'],
@@ -57,7 +57,6 @@ export class MoviesFilterComponent {
     selectedOrder = 'popularity.desc';
 
     constructor() {
-
         //get all regions with watch provider info
         this.moviesService
             .getRegions()
@@ -67,7 +66,7 @@ export class MoviesFilterComponent {
                     this.regions.set(regions);
                 },
             });
-        
+
         //get all genres
         this.moviesService
             .getMovieGenres()

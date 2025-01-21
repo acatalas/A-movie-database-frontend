@@ -56,11 +56,7 @@
                         }
                     </div>-->
                     <div id="watch-provider-region" class="mb-3">
-                        <select name="watch-provider-region" id="watch-provider-region" class="form-select" [(ngModel)]="selectedRegion">
-                            @for(region of regions(); track region){
-                            <option value="{{ region }}">{{ region | intlRegion : "EN"  }}</option>
-                            }
-                        </select>
+                        <region-select [regionCodes]="regions()" [(region)]="selectedRegion"></region-select>
                     </div>
                     <div id="watch-providers">
                         @for (watchProvider of watchProviders.value(); track watchProvider.id; let i = $index) {
