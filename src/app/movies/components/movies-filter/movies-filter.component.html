@@ -56,7 +56,7 @@
                         }
                     </div>-->
                     <div id="watch-provider-region" class="mb-3">
-                        <region-select [regionCodes]="regions()" [(region)]="selectedRegion"></region-select>
+                        <region-select [regionCodes]="regions()" [region]="selectedRegion()" (regionChange)="updateSelectedRegion($event)"></region-select>
                     </div>
                     <div id="watch-providers">
                         @for (watchProvider of watchProviders.value(); track watchProvider.id; let i = $index) {

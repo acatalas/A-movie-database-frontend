@@ -55,8 +55,6 @@ export class MoviesService {
             filterParams = this.getFilterParams(filterOptions);
         }
 
-        filterParams = filterParams.set('watch_region', this.watchProviderRegion); //with_watch_providers: 1|2|55
-
         //set default filterOptions
         filterParams = filterParams.set('language', this.language).set('region', this.region);
         filterParams = filterParams.set('page', page);
@@ -90,16 +88,34 @@ export class MoviesService {
         );
     }
 
+    /**
+     * Maps the FilterParams interface to an HttpParams object.
+     * @param filterOptions FilterParams type object with select filter options
+     * @returns HttpParams populated with the filter options
+     */
     getFilterParams(filterOptions: FilterParams): HttpParams {
         let filterParams = new HttpParams().set('sort_by', filterOptions.orderBy);
+
+        //Add watch monetization types (flatrate, rent, etc.)
         if (filterOptions.watchMonetizationTypes.length > 0) {
             filterParams = filterParams.set('with_watch_monetization_types', filterOptions.watchMonetizationTypes.join('|'));
         }
+
+        //Add watch providers
         if (filterOptions.watchProviders.length > 0) {
             filterParams = filterParams.set('with_watch_providers', filterOptions.watchProviders.join('|'));
         }
+
+        //Add the genres
         if (filterOptions.selectedGenres.length > 0) {
             filterParams = filterParams.set('with_genres', filterOptions.selectedGenres.join(','));
+        }
+
+        //if watch region is specified, use that region. Otherwise, default to default region.
+        if (filterOptions.watchRegion.length > 0) {
+            filterParams = filterParams.set('watch_region', filterOptions.watchRegion); //with_watch_providers: 1|2|55
+        } else {
+            filterParams = filterParams.set('watch_region', this.watchProviderRegion); //with_watch_providers: 1|2|55
         }
         return filterParams;
     }

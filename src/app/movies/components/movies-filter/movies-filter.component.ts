@@ -80,6 +80,7 @@ export class MoviesFilterComponent {
 
     applyFilters(): void {
         const filterParams: FilterParams = {
+            watchRegion: this.selectedRegion(),
             watchProviders: this.selectedProviders,
             watchMonetizationTypes: this.selectedMonetizationTypes,
             selectedGenres: this.selectedGenres,
@@ -110,6 +111,11 @@ export class MoviesFilterComponent {
         } else {
             this.selectedGenres.splice(this.selectedGenres.indexOf(genre.id), 1);
         }
+    }
+
+    updateSelectedRegion(region: string) {
+        this.selectedRegion.set(region);
+        this.selectedProviders = [];
     }
 
     // Preserve original property order in the keyvalue pipe

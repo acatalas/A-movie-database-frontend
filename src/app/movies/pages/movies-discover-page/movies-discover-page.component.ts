@@ -15,12 +15,13 @@ import { LocalStorageService } from '../../../services/local-storage.service';
     templateUrl: './movies-discover-page.component.html',
     styleUrl: './movies-discover-page.component.css',
 })
+
 export class MoviesDiscoverPageComponent {
     #moviesService = inject(MoviesService);
     #localStorageService = inject(LocalStorageService);
+    destroyRef = inject(DestroyRef);
 
     movies = signal<Movie[]>([]);
-    destroyRef = inject(DestroyRef);
 
     constructor() {
         this.loadDefaultMovies();
@@ -28,22 +29,14 @@ export class MoviesDiscoverPageComponent {
 
     //loads the default movies that are shown when the search term is empty
     loadDefaultMovies(): void {
-        this.#moviesService
-            .getMovies()
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe({
-                next: (movies: MoviesPagination) => {
-                    console.log(movies.results)
-                    this.addRatingsFromLocalStorage(movies.results);
-                    this.movies.set(movies.results);
-                },
-                error: (error: HttpErrorResponse) => {
-                    console.error(`Error obtaining movies: `, error);
-                },
-            });
+        this.getMovies(null);
     }
 
     filterMovies(filterOptions: FilterParams): void {
+        this.getMovies(filterOptions);
+    }
+
+    getMovies(filterOptions: FilterParams | null) {
         this.#moviesService
             .getMovies(1, filterOptions)
             .pipe(takeUntilDestroyed(this.destroyRef))
