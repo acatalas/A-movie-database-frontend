@@ -19,7 +19,7 @@ export class RegionSelectComponent {
     getRegionCodesMap(regionCodes: string[]): Map<string, string> {
         const regionCodesMap = new Map<string, string>();
         for (const regionCode of regionCodes) {
-            regionCodesMap.set(regionCode, this.getRegionName(regionCode, 'GB'));
+            regionCodesMap.set(regionCode, this.getRegionName(regionCode, 'EN-UK'));
         }
         return this.sortRegionCodesMap(regionCodesMap);
     }
