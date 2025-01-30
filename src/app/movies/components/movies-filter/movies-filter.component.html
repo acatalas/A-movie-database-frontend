@@ -16,7 +16,7 @@
             <div id="collapseOrder" class="accordion-collapse collapse show" data-bs-parent="#orderByAccordion">
                 <div class="accordion-body" id="order-by-filter w-100">
                     <label for="order-by" class="form-label">Sort results by:</label>
-                    <select name="order-by" id="order-by" class="form-select" [(ngModel)]="selectedOrder">
+                    <select name="order-by" id="order-by" class="form-select" [(ngModel)]="filterParams.orderBy">
                         @for(orderByOption of orderByOptions | keyvalue: originalOrder; track orderByOption.key){
                         <option value="{{ orderByOption.key }}">{{ orderByOption.value }}</option>
                         }
@@ -59,7 +59,7 @@
                         <region-select [regionCodes]="regions()" [region]="selectedRegion()" (regionChange)="updateSelectedRegion($event)"></region-select>
                     </div>
                     <div id="watch-providers">
-                        @for (watchProvider of watchProviders.value(); track watchProvider.id; let i = $index) {
+                        @for (watchProvider of watchProviders.value(); track $index) {
                         <div class="watch-provider">
                             <input
                                 type="checkbox"

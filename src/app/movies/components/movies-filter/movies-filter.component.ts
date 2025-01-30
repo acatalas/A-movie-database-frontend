@@ -19,6 +19,9 @@ export class MoviesFilterComponent {
 
     filter = output<FilterParams>();
 
+    movieGenres = signal<Genre[]>([]);
+    regions = signal<string[]>([]);
+
     //made a signal because it updates the watchProviders resource
     selectedRegion = signal('GB');
 
@@ -29,9 +32,7 @@ export class MoviesFilterComponent {
             return this.moviesService.getWatchProviders(params.request);
         },
     });
-    movieGenres = signal<Genre[]>([]);
-    regions = signal<string[]>([]);
-
+   
     watchMonetizationTypes = new Map([
         ['flatrate', 'Flat rate'],
         ['free', 'Free'],
@@ -51,10 +52,13 @@ export class MoviesFilterComponent {
         ['title.asc', 'Title (Z-A)'],
     ]);
 
-    selectedProviders: number[] = [];
-    selectedMonetizationTypes: string[] = [];
-    selectedGenres: number[] = [];
-    selectedOrder = 'popularity.desc';
+    filterParams: FilterParams = {
+        watchProviders: [],
+        watchRegion: this.selectedRegion(),
+        watchMonetizationTypes: [],
+        selectedGenres: [],
+        orderBy: 'popularity.desc'
+    }
 
     constructor() {
         //get all regions with watch provider info
@@ -79,43 +83,40 @@ export class MoviesFilterComponent {
     }
 
     applyFilters(): void {
-        const filterParams: FilterParams = {
-            watchRegion: this.selectedRegion(),
-            watchProviders: this.selectedProviders,
-            watchMonetizationTypes: this.selectedMonetizationTypes,
-            selectedGenres: this.selectedGenres,
-            orderBy: this.selectedOrder,
-        };
-        this.filter.emit(filterParams);
+        this.filter.emit(this.filterParams);
     }
 
     updateSelectedProvider(event: Event, watchProvider: WatchProvider): void {
         if ((event.target! as HTMLInputElement).checked!) {
-            this.selectedProviders.push(watchProvider.id);
+            this.filterParams.watchProviders.push(watchProvider.id);
         } else {
-            this.selectedProviders.splice(this.selectedProviders.indexOf(watchProvider.id), 1);
+            this.filterParams.watchProviders.splice(this.filterParams.watchProviders.indexOf(watchProvider.id), 1);
         }
+
+        console.log("UPDATE PROVIDER", this.filterParams)
     }
 
     updateSelectedMonetizationType(event: Event, monetizationType: string): void {
         if ((event.target! as HTMLInputElement).checked!) {
-            this.selectedMonetizationTypes.push(monetizationType);
+            this.filterParams.watchMonetizationTypes.push(monetizationType);
         } else {
-            this.selectedMonetizationTypes.splice(this.selectedMonetizationTypes.indexOf(monetizationType), 1);
+            this.filterParams.watchMonetizationTypes.splice(this.filterParams.watchMonetizationTypes.indexOf(monetizationType), 1);
         }
     }
 
     updateSelectedGenre(event: Event, genre: Genre) {
         if ((event.target! as HTMLInputElement).checked!) {
-            this.selectedGenres.push(genre.id);
+            this.filterParams.selectedGenres.push(genre.id);
         } else {
-            this.selectedGenres.splice(this.selectedGenres.indexOf(genre.id), 1);
+            this.filterParams.selectedGenres.splice(this.filterParams.selectedGenres.indexOf(genre.id), 1);
         }
     }
 
     updateSelectedRegion(region: string) {
         this.selectedRegion.set(region);
-        this.selectedProviders = [];
+
+        this.filterParams.watchRegion = region;
+        this.filterParams.watchProviders = [];
     }
 
     // Preserve original property order in the keyvalue pipe
