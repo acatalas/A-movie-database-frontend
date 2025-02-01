@@ -1,5 +1,14 @@
-<select name="watch-provider-region" id="watch-provider-region" class="form-select" [(ngModel)]="region">
-    @for(region of regionCodesMap() | keyvalue: originalOrder; track region.key){
-    <option value="{{ region.key }}">{{ region.value }}</option>
-    }
-</select>
+<div class="dropdown d-grid">
+    <button class="d-block form-select text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <img class="dropdown-flag" [src]="'img/flags/' + region().toLowerCase() + '.png'" [alt]="selectedRegion() + ' flag'">
+        {{selectedRegion()}}
+    </button>
+    <ul class="dropdown-menu">
+        @for(region of regionCodesMap() | keyvalue: originalOrder; track region.key){
+        <li><button class="dropdown-item" (click)="selectRegion(region.key)">
+            <img class="dropdown-flag" [src]="'img/flags/' + region.key.toLowerCase() + '.png'" [alt]="region.value + ' flag'">
+            {{ region.value }}
+        </button></li>
+        }
+    </ul>
+</div>

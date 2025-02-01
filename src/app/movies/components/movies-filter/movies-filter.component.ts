@@ -92,8 +92,6 @@ export class MoviesFilterComponent {
         } else {
             this.filterParams.watchProviders.splice(this.filterParams.watchProviders.indexOf(watchProvider.id), 1);
         }
-
-        console.log("UPDATE PROVIDER", this.filterParams)
     }
 
     updateSelectedMonetizationType(event: Event, monetizationType: string): void {

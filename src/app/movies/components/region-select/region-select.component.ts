@@ -14,12 +14,17 @@ export class RegionSelectComponent {
     regionCodesMap = computed(() => {
         return this.getRegionCodesMap(this.regionCodes());
     });
+    selectedRegion = computed(() => {
+        return this.getRegionName(this.region(), this.defaultLocale)
+    })
+
+    defaultLocale = 'EN-UK';
 
     //returns a map with the region codes as the key, and the translated region name as a value
     getRegionCodesMap(regionCodes: string[]): Map<string, string> {
         const regionCodesMap = new Map<string, string>();
         for (const regionCode of regionCodes) {
-            regionCodesMap.set(regionCode, this.getRegionName(regionCode, 'EN-UK'));
+            regionCodesMap.set(regionCode, this.getRegionName(regionCode, this.defaultLocale));
         }
         return this.sortRegionCodesMap(regionCodesMap);
     }
@@ -41,6 +46,10 @@ export class RegionSelectComponent {
             console.error(error);
             return regionCode;
         }
+    }
+
+    selectRegion(regionCode: string) {
+        this.region.set(regionCode);
     }
 
     // Preserve original property order in the keyvalue pipe
