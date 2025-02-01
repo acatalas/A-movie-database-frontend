@@ -2,7 +2,7 @@
     width: 100%;
     --bs-dropdown-link-active-bg: var(--bs-dropdown-link-hover-bg);
     --bs-dropdown-link-active-color: var(--text-color);
-    max-height: 20vh;
+    max-height: 20em;
     overflow-y: scroll;
 }
 
