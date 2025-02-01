@@ -2,10 +2,11 @@
     width: 100%;
     --bs-dropdown-link-active-bg: var(--bs-dropdown-link-hover-bg);
     --bs-dropdown-link-active-color: var(--text-color);
+    max-height: 20vh;
+    overflow-y: scroll;
 }
 
 .dropdown-flag {
     height: 1.25rem;
     padding-right: 0.25rem;
 }
-
