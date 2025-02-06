@@ -4,10 +4,19 @@
         {{ selectedRegion() }}
     </button>
     <ul class="dropdown-menu">
+        <li>
+            <form class="px-3 py-1">
+                <input [(ngModel)]="regionFilter" type="text" name="region-filter" class="form-control" id="region-select-search" placeholder="Search..." />
+            </form>
+        </li>
         @for(regionCode of regionCodesMap() | keyvalue: originalOrder; track regionCode.key){
         <li>
-            <button class="dropdown-item" [class.active]="regionCode.key === region()" (click)="selectRegion(regionCode.key)">
-                <img class="dropdown-flag" [src]="'img/flags/' + regionCode.key.toLowerCase() + '.png'" [alt]="regionCode.value + ' flag'" />
+            <button class="dropdown-item" [class.active]="regionCode.key === region()" (click)="selectRegion(regionCode.key)" type="button">
+                <img
+                    class="dropdown-flag"
+                    [src]="'img/flags/' + regionCode.key.toLowerCase() + '.png'"
+                    [alt]="regionCode.value + ' flag'"
+                />
                 {{ regionCode.value }}
             </button>
         </li>

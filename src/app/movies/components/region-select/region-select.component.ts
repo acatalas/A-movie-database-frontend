@@ -12,12 +12,14 @@ export class RegionSelectComponent {
     //stores a list of region codes
     regionCodes = input.required<string[]>();
 
-    //stores the region code
+    //stores the region code so it can be emitted to parent component
     region = model.required<string>();
 
-    //maps the region codes to a region code -> region name map.
+    regionFilter = model<string>('');
+
+    //maps the region codes to a region code -> region name.
     regionCodesMap = computed(() => {
-        return this.getRegionCodesMap(this.regionCodes());
+        return this.getRegionCodesMap(this.regionCodes(), this.regionFilter());
     });
 
     //stores the translated name of the selected region in specified locale
@@ -28,10 +30,13 @@ export class RegionSelectComponent {
     defaultLocale = 'EN-UK';
 
     //returns a map with the region codes as the key, and the translated region name as a value
-    getRegionCodesMap(regionCodes: string[]): Map<string, string> {
+    getRegionCodesMap(regionCodes: string[], filter: string): Map<string, string> {
         const regionCodesMap = new Map<string, string>();
         for (const regionCode of regionCodes) {
-            regionCodesMap.set(regionCode, this.getRegionName(regionCode, this.defaultLocale));
+            const regionName = this.getRegionName(regionCode, this.defaultLocale);
+            if(regionName.toLowerCase().includes(filter.toLowerCase())){
+                regionCodesMap.set(regionCode, regionName);
+            }
         }
         return this.sortRegionCodesMap(regionCodesMap);
     }
