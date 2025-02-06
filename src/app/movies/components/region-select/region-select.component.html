@@ -1,14 +1,16 @@
 <div class="dropdown d-grid">
     <button class="d-block form-select text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <img class="dropdown-flag" [src]="'img/flags/' + region().toLowerCase() + '.png'" [alt]="selectedRegion() + ' flag'">
-        {{selectedRegion()}}
+        <img class="dropdown-flag" [src]="'img/flags/' + region().toLowerCase() + '.png'" [alt]="selectedRegion() + ' flag'" />
+        {{ selectedRegion() }}
     </button>
     <ul class="dropdown-menu">
-        @for(region of regionCodesMap() | keyvalue: originalOrder; track region.key){
-        <li><button class="dropdown-item" (click)="selectRegion(region.key)">
-            <img class="dropdown-flag" [src]="'img/flags/' + region.key.toLowerCase() + '.png'" [alt]="region.value + ' flag'">
-            {{ region.value }}
-        </button></li>
+        @for(regionCode of regionCodesMap() | keyvalue: originalOrder; track regionCode.key){
+        <li>
+            <button class="dropdown-item" [class.active]="regionCode.key === region()" (click)="selectRegion(regionCode.key)">
+                <img class="dropdown-flag" [src]="'img/flags/' + regionCode.key.toLowerCase() + '.png'" [alt]="regionCode.value + ' flag'" />
+                {{ regionCode.value }}
+            </button>
+        </li>
         }
     </ul>
 </div>

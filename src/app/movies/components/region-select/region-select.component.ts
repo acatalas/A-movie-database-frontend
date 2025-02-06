@@ -9,11 +9,18 @@ import { FormsModule } from '@angular/forms';
     styleUrl: './region-select.component.css',
 })
 export class RegionSelectComponent {
+    //stores a list of region codes
     regionCodes = input.required<string[]>();
+
+    //stores the region code
     region = model.required<string>();
+
+    //maps the region codes to a region code -> region name map.
     regionCodesMap = computed(() => {
         return this.getRegionCodesMap(this.regionCodes());
     });
+
+    //stores the translated name of the selected region in specified locale
     selectedRegion = computed(() => {
         return this.getRegionName(this.region(), this.defaultLocale)
     })
